@@ -1,25 +1,30 @@
 const sidebar = document.getElementById("sidebar");
 const main = document.getElementById("main");
+const pageTitle = document.getElementById("pageTitle");
+const settingsModal = document.getElementById("settingsModal");
+const themeToggle = document.getElementById("themeToggle");
 
+// Open sidebar
 document.getElementById("menuToggle").addEventListener("click", () => {
   sidebar.classList.add("show");
 });
 
+// Close sidebar
 document.getElementById("closeSidebar").addEventListener("click", () => {
   sidebar.classList.remove("show");
 });
 
-// Attach event listeners to handle elements
+// Load holdings when handle is clicked
 document.querySelectorAll(".handle").forEach(handle => {
   handle.addEventListener("click", () => {
     const username = handle.dataset.handle;
-    document.getElementById("pageTitle").textContent = username;
+    pageTitle.textContent = username;
     loadHoldings(`${username}.csv`);
-    sidebar.classList.remove("show"); // close after selection
+    sidebar.classList.remove("show");
   });
 });
 
-// Load holdings from CSV and render
+// Load holdings from CSV
 function loadHoldings(csvFile) {
   fetch(csvFile)
     .then(res => res.text())
@@ -49,26 +54,27 @@ function loadHoldings(csvFile) {
     });
 }
 
-// Load yourhandle by default
-document.getElementById("pageTitle").textContent = "yourhandle";
+// Initial load
+pageTitle.textContent = "yourhandle";
 loadHoldings("yourhandle.csv");
 
-// Modal toggle
-const settingsModal = document.getElementById("settingsModal");
-const modalContent = document.querySelector(".modal-content");
-
+// Open settings modal
 document.getElementById("openSettings").addEventListener("click", () => {
+  settingsModal.classList.remove("hidden");
   settingsModal.classList.add("show");
 });
 
+// Close modal when clicking outside content
 settingsModal.addEventListener("click", (e) => {
   if (e.target === settingsModal) {
     settingsModal.classList.remove("show");
+    setTimeout(() => {
+      settingsModal.classList.add("hidden");
+    }, 300); // match your CSS transition duration
   }
 });
 
 // Dark mode toggle
-const themeToggle = document.getElementById("themeToggle");
 themeToggle.addEventListener("change", () => {
   document.body.classList.toggle("dark-mode", themeToggle.checked);
 });
