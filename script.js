@@ -18,7 +18,14 @@ fetch("holdings.csv")
     holdings.forEach(h => {
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<strong>${h.symbol}</strong> (${h.ticker}) — ${h.percent}%`;
-      main.appendChild(card);
-    });
-  });
+      
+      card.innerHTML = `
+        <div class="holding-row">
+          <div class="ticker">${h.ticker}</div>
+          <div class="name">${h.symbol}</div>
+          <div class="percent">${h.percent}%</div>
+        </div>
+      `;
+
+  main.appendChild(card);
+});
