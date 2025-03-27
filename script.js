@@ -52,3 +52,21 @@ function loadHoldings(csvFile) {
 // Load yourhandle by default
 document.getElementById("pageTitle").textContent = "yourhandle";
 loadHoldings("yourhandle.csv");
+
+// Modal toggle
+const settingsModal = document.getElementById("settingsModal");
+document.getElementById("openSettings").addEventListener("click", () => {
+  settingsModal.classList.remove("hidden");
+});
+
+settingsModal.addEventListener("click", (e) => {
+  if (e.target === settingsModal) {
+    settingsModal.classList.add("hidden");
+  }
+});
+
+// Dark mode toggle
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark-mode", themeToggle.checked);
+});
