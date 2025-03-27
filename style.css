@@ -1,1 +1,35 @@
-
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+}
+.topbar {
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+.topbar button {
+  margin-right: 1rem;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #eee;
+  width: 200px;
+  height: 100%;
+  padding: 1rem;
+}
+.hidden {
+  display: none;
+}
+#main {
+  padding: 2rem;
+}
+.card {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
