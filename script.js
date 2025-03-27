@@ -1,7 +1,9 @@
 document.getElementById("menuToggle").addEventListener("click", () => {
   document.getElementById("sidebar").classList.toggle("hidden");
 });
-
+document.getElementById("closeSidebar").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.add("hidden");
+});
 // Read CSV and display holdings
 fetch("holdings.csv")
   .then(res => res.text())
