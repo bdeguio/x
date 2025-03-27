@@ -55,13 +55,15 @@ loadHoldings("yourhandle.csv");
 
 // Modal toggle
 const settingsModal = document.getElementById("settingsModal");
+const modalContent = document.querySelector(".modal-content");
+
 document.getElementById("openSettings").addEventListener("click", () => {
-  settingsModal.classList.remove("hidden");
+  settingsModal.classList.add("show");
 });
 
 settingsModal.addEventListener("click", (e) => {
   if (e.target === settingsModal) {
-    settingsModal.classList.add("hidden");
+    settingsModal.classList.remove("show");
   }
 });
 
