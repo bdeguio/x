@@ -29,15 +29,6 @@ body {
   left: 0;
 }
 
-#closeSidebar {
-  align-self: flex-end;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
-
 .handle-group {
   text-align: center;
   margin-top: 1rem;
