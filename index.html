@@ -27,5 +27,32 @@
   <div id="main"></div>
 </div>
   <script src="script.js"></script>
+
+  <!-- Settings Button -->
+<p id="openSettings" class="settings-btn">⚙️ Settings</p>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Settings</h2>
+
+    <!-- Theme Toggle -->
+    <div class="setting-item">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider round"></span>
+      </label>
+      <span>Dark Mode</span>
+    </div>
+
+    <!-- Accounts -->
+    <div class="setting-section">
+      <strong>Accounts</strong>
+      <p>Robinhood</p>
+      <p>Chase</p>
+      <button id="connectPlaid">Connect Account with Plaid</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
