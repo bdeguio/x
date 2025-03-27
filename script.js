@@ -1,10 +1,12 @@
 // Toggle sidebar open/close
+const sidebar = document.getElementById("sidebar");
+
 document.getElementById("menuToggle").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.remove("hidden");
+  sidebar.classList.add("show");
 });
 
 document.getElementById("closeSidebar").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.add("hidden");
+  sidebar.classList.remove("show");
 });
 
 // Read CSV and display holdings
