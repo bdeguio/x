@@ -7,51 +7,60 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
-  <div id="sidebar" class="sidebar">
-    <button id="closeSidebar">✕</button>
-    <div class="handle-group">
-      <p class="handle" data-handle="elon">elon</p>
-      <p class="handle" data-handle="buffett">buffett</p>
-      <div class="divider"></div>
-      <p class="handle"  data-handle="yourhandle">yourhandle</p>
-      <div class="divider"></div>
-        <div class="sidebar-footer">
-          <p id="openSettings" class="sidebar-settings">Settings</p>
-        </div>
+  <div class="container">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <button id="closeSidebar">✕</button>
+      <div class="handle-group">
+        <p class="handle" data-handle="elon">elon</p>
+        <p class="handle" data-handle="buffett">buffett</p>
+        <div class="divider"></div>
+        <p class="handle" data-handle="yourhandle">yourhandle</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Settings button pinned to bottom -->
+      <div class="sidebar-footer">
+        <p id="openSettings" class="sidebar-settings">Settings</p>
+      </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <button id="menuToggle">☰</button>
+      <h1 id="pageTitle">yourhandle</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main"></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Settings</h2>
+
+      <!-- Theme Toggle -->
+      <div class="setting-item">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider round"></span>
+        </label>
+        <span>Dark Mode</span>
+      </div>
+
+      <!-- Accounts -->
+      <div class="setting-section">
+        <strong>Accounts</strong>
+        <p>Robinhood</p>
+        <p>Chase</p>
+        <button id="connectPlaid">Connect Account with Plaid</button>
+      </div>
     </div>
   </div>
 
-  <div class="topbar">
-    <button id="menuToggle">☰</button>
-    <h1 id="pageTitle">yourhandle</h1>
-  </div>
-
-  <div id="main"></div>
-</div>
+  <!-- Scripts -->
   <script src="script.js"></script>
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal hidden">
-  <div class="modal-content">
-    <h2>Settings</h2>
-
-    <!-- Theme Toggle -->
-    <div class="setting-item">
-      <label class="switch">
-        <input type="checkbox" id="themeToggle">
-        <span class="slider round"></span>
-      </label>
-      <span>Dark Mode</span>
-    </div>
-
-    <!-- Accounts -->
-    <div class="setting-section">
-      <strong>Accounts</strong>
-      <p>Robinhood</p>
-      <p>Chase</p>
-      <button id="connectPlaid">Connect Account with Plaid</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
