@@ -1,17 +1,21 @@
+/* Base Styles */
 body {
   font-family: sans-serif;
   margin: 0;
   background: #f9f9f9;
 }
+
 .topbar {
   background: #fff;
   padding: 1rem;
   display: flex;
   align-items: center;
 }
+
 .topbar button {
   margin-right: 1rem;
 }
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -26,7 +30,7 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* left-align handles */
+  align-items: flex-start;
 }
 
 .sidebar.show {
@@ -83,6 +87,7 @@ body {
 #main {
   padding: 2rem;
 }
+
 .card {
   background: white;
   padding: 1rem;
@@ -115,15 +120,7 @@ body {
   color: #111;
 }
 
-.settings-btn {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: #333;
-}
-
+/* Modal Styles */
 .modal {
   position: fixed;
   inset: 0;
@@ -183,29 +180,6 @@ body {
   cursor: pointer;
 }
 
-body.dark-mode {
-  background: #1f1f1f;
-  color: white;
-}
-
-body.dark-mode .card {
-  background: #2a2a2a;
-  color: #eee;
-}
-
-body.dark-mode .modal-content {
-  background: #333;
-  color: white;
-}
-
-body.dark-mode .sidebar {
-  background: #2a2a2a;
-}
-
-body.dark-mode .divider {
-  background: #555;
-}
-
 /* Toggle Switch */
 .switch {
   position: relative;
@@ -250,4 +224,59 @@ input:checked + .slider.round {
 
 input:checked + .slider.round:before {
   transform: translateX(16px);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  background: #1f1f1f;
+  color: white;
+}
+
+body.dark-mode .topbar {
+  background: #2a2a2a;
+}
+
+body.dark-mode .sidebar {
+  background: #2a2a2a;
+}
+
+body.dark-mode .card {
+  background: #2a2a2a;
+  color: #eee;
+}
+
+body.dark-mode .modal-content {
+  background: #333;
+  color: white;
+}
+
+body.dark-mode .divider {
+  background: #555;
+}
+
+body.dark-mode .handle {
+  color: #eee;
+}
+
+body.dark-mode .sidebar-settings {
+  color: #ccc;
+}
+
+body.dark-mode .sidebar-settings:hover {
+  color: white;
+}
+
+body.dark-mode .ticker,
+body.dark-mode .name,
+body.dark-mode .percent {
+  color: #eee;
+}
+
+body.dark-mode #connectPlaid {
+  background-color: #0d6efd;
+  color: white;
+}
+
+body.dark-mode #connectPlaid:hover {
+  background-color: #1a74ff;
 }
