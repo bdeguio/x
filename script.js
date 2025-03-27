@@ -13,6 +13,7 @@ document.getElementById("closeSidebar").addEventListener("click", () => {
 document.querySelectorAll(".handle").forEach(handle => {
   handle.addEventListener("click", () => {
     const username = handle.dataset.handle;
+    document.getElementById("pageTitle").textContent = username;
     loadHoldings(`${username}.csv`);
     sidebar.classList.remove("show"); // close after selection
   });
@@ -49,4 +50,5 @@ function loadHoldings(csvFile) {
 }
 
 // Load yourhandle by default
+document.getElementById("pageTitle").textContent = "yourhandle";
 loadHoldings("yourhandle.csv");
