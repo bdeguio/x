@@ -1,9 +1,12 @@
+// Toggle sidebar open/close
 document.getElementById("menuToggle").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.toggle("hidden");
+  document.getElementById("sidebar").classList.remove("hidden");
 });
+
 document.getElementById("closeSidebar").addEventListener("click", () => {
   document.getElementById("sidebar").classList.add("hidden");
 });
+
 // Read CSV and display holdings
 fetch("holdings.csv")
   .then(res => res.text())
@@ -18,7 +21,7 @@ fetch("holdings.csv")
     holdings.forEach(h => {
       const card = document.createElement("div");
       card.className = "card";
-      
+
       card.innerHTML = `
         <div class="holding-row">
           <div class="ticker">${h.ticker}</div>
@@ -27,5 +30,6 @@ fetch("holdings.csv")
         </div>
       `;
 
-  main.appendChild(card);
-});
+      main.appendChild(card);
+    });
+  });
