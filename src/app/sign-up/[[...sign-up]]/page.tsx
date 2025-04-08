@@ -1,5 +1,6 @@
 import { SignUp } from "@clerk/nextjs";
+import { clerkAppearance } from "@/components/clerkTheme"
 
 export default function Page() {
-  return <SignUp />;
+  return <SignUp appearance={clerkAppearance} />;
 }
