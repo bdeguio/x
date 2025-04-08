@@ -9,6 +9,7 @@ import {
 import { type Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +28,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <header className="flex justify-between items-center px-6 py-4 border-b shadow-sm">
-            <a href="/" className="text-xl font-bold">
+            <Link href="/" className="text-xl font-bold">
               Arena
-            </a>
+            </Link>
 
             <div className="flex gap-4 items-center">
               <SignedOut>
