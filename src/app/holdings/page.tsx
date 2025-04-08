@@ -2,6 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { SignedIn, SignOutButton } from "@clerk/nextjs";
 
 type Holding = {
   symbol: string;
@@ -26,7 +27,15 @@ export default function HoldingsPage() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Welcome, {user?.firstName || 'Investor'} 👋</h1>
+    <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">
+            Welcome, {user?.firstName || "Investor"} 👋
+        </h1>
+
+        <SignedIn>
+            <SignOutButton />
+        </SignedIn>
+       </div>
       <h2 className="text-xl mb-4">Your Holdings</h2>
 
       <div className="grid gap-4">
