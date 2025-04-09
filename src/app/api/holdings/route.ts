@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 
+type Holding = {
+  symbol: string;
+  ticker: string;
+  percent: number;
+};
+
 // In-memory store (resets on every restart)
-const userHoldingsMap = new Map<string, any[]>();
+const userHoldingsMap = new Map<string, Holding[]>();
 
 export async function GET(req: NextRequest) {
   try {
