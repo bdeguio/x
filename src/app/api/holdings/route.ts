@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     console.log("📊 Returning holdings:", holdings);
 
     return NextResponse.json(holdings);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ GET /api/holdings error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     userHoldingsMap.set(userId, [...existing, newHolding]);
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ POST /api/holdings error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
