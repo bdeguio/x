@@ -1,8 +1,7 @@
 'use client';
 
-import { useUser } from "@clerk/nextjs";
+import { useUser, SignOutButton, SignedIn } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { SignedIn, SignOutButton } from "@clerk/nextjs";
 
 type Holding = {
   symbol: string;
@@ -21,21 +20,30 @@ export default function HoldingsPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
 
   useEffect(() => {
-    // In real app, fetch from DB here
     setHoldings(mockHoldings);
   }, []);
 
   return (
     <div className="p-8">
-    <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
-            Welcome, {user?.firstName || "Investor"} 👋
-        </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Your Dashboard</h1>
 
         <SignedIn>
-            <SignOutButton />
+          <div className="flex items-center gap-4">
+            <img
+              src={user?.imageUrl || ""}
+              alt="User avatar"
+              className="w-10 h-10 rounded-full border"
+            />
+            <SignOutButton redirectUrl="/">
+              <button className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition">
+                Sign Out
+              </button>
+            </SignOutButton>
+          </div>
         </SignedIn>
-       </div>
+      </div>
+
       <h2 className="text-xl mb-4">Your Holdings</h2>
 
       <div className="grid gap-4">
