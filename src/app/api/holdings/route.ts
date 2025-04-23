@@ -2,12 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { supabase } from "@/lib/supabase";
 
-type Holding = {
-  symbol: string;
-  ticker: string;
-  percent: number;
-};
-
 export async function GET(req: NextRequest) {
   const { userId } = getAuth(req);
 
