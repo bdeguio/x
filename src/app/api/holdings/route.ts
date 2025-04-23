@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
+import { supabase } from "@/lib/supabase";
 
 type Holding = {
   symbol: string;
@@ -7,55 +8,36 @@ type Holding = {
   percent: number;
 };
 
-// In-memory store (resets on every restart)
-const userHoldingsMap = new Map<string, Holding[]>();
-
 export async function GET(req: NextRequest) {
-  try {
-    const { userId } = getAuth(req);
-    console.log("🔐 userId:", userId);
+  const { userId } = getAuth(req);
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Seed mock data if it's the first time
-    if (!userHoldingsMap.has(userId)) {
-      userHoldingsMap.set(userId, [
-        { symbol: "Tesla Inc.", ticker: "TSLA", percent: 45 },
-        { symbol: "Apple Inc.", ticker: "AAPL", percent: 35 },
-        { symbol: "Amazon", ticker: "AMZN", percent: 20 },
-      ]);
-    }
-
-    const holdings = userHoldingsMap.get(userId) || [];
-    console.log("📊 Returning holdings:", holdings);
-
-    return NextResponse.json(holdings);
-  } catch (error: unknown) {
-    console.error("❌ GET /api/holdings error:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  if (!userId) {
+    return new NextResponse(null, { status: 401 });
   }
+
+  const { data } = await supabase
+    .from("holdings")
+    .select("ticker")
+    .eq("user_id", userId);
+
+  return NextResponse.json(data || []);
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const { userId } = getAuth(req);
-    console.log("🔐 userId:", userId);
+  const { userId } = getAuth(req);
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const newHolding = await req.json();
-    console.log("➕ Adding new holding:", newHolding);
-
-    const existing = userHoldingsMap.get(userId) || [];
-    userHoldingsMap.set(userId, [...existing, newHolding]);
-
-    return NextResponse.json({ success: true });
-  } catch (error: unknown) {
-    console.error("❌ POST /api/holdings error:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  if (!userId) {
+    return new NextResponse(null, { status: 401 });
   }
+
+  const newHolding = await req.json();
+
+  await supabase.from("holdings").insert([
+    {
+      user_id: userId,
+      ticker: newHolding.ticker,
+    },
+  ]);
+
+  return new NextResponse(null, { status: 200 });
 }
