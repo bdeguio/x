@@ -9,7 +9,6 @@ type Holding = {
 
 export default function HoldingsPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [newTicker, setNewTicker] = useState('');
 
   useEffect(() => {
     async function loadHoldings() {
