@@ -40,20 +40,5 @@ export default function HoldingsPage() {
       </div>
     </div>
   );
-
-  async function addHolding() {
-    if (!newTicker) return;
-
-    await fetch('/api/holdings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ticker: newTicker }),
-    });
-
-    setHoldings(prev => [...prev, { ticker: newTicker }]);
-    setNewTicker('');
-  }
 }
 
