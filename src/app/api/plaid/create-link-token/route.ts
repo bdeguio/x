@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       user: {
         client_user_id: 'test-user',
       },
-      client_name: 'Arena Street',
+      client_name: 'Arena',
       products: [Products.Investments], // 🛠 fixed
       country_codes: [CountryCode.Us],   // 🛠 fixed
       language: 'en',
