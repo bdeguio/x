@@ -55,35 +55,5 @@ export default function HoldingsPage() {
     setHoldings(prev => [...prev, { ticker: newTicker }]);
     setNewTicker('');
   }
-
-  return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold mb-4">Your Holdings</h2>
-
-      <div className="flex gap-2 mb-6">
-        <input
-          className="border p-2 rounded w-64"
-          type="text"
-          placeholder="Enter ticker symbol (e.g., TSLA)"
-          value={newTicker}
-          onChange={(e) => setNewTicker(e.target.value.toUpperCase())}
-        />
-        <button
-          className="bg-blue-600 text-white p-2 rounded"
-          onClick={addHolding}
-        >
-          Add Holding
-        </button>
-      </div>
-
-      <div className="grid gap-4">
-        {holdings.map((h, i) => (
-          <div key={i} className="p-4 rounded border shadow flex justify-between items-center">
-            <div className="text-lg font-semibold">{h.ticker}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
 
