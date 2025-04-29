@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import PlaidLinkButton from '@/components/PlaidLinkButton';
 
 type Holding = {
-  ticker_symbol: string; // 🔥 Match your updated database
-  security_id?: string;  // optional, for backend/internal use if you ever want
+  ticker_symbol: string;
+  company_name?: string; // Optional in case not every asset has a company name
 };
 
 export default function HoldingsPage() {
@@ -45,8 +45,14 @@ export default function HoldingsPage() {
           <div className="text-center text-gray-500">No Holdings Yet</div>
         ) : (
           holdings.map((h, i) => (
-            <div key={i} className="p-4 rounded border shadow flex justify-between items-center">
-              <div className="text-lg font-semibold">{h.ticker_symbol}</div> {/* 🔥 Use ticker_symbol here */}
+            <div
+              key={i}
+              className="p-4 rounded border shadow flex justify-between items-center"
+            >
+              <div>
+                <div className="text-lg font-semibold">{h.ticker_symbol}</div> {/* 🔥 Show ticker */}
+                <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div> {/* 🔥 Show company name */}
+              </div>
             </div>
           ))
         )}
