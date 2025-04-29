@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("❌ Exchange Token Error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
