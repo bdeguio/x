@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "Holdings updated successfully" });
   } catch (err: unknown) {
-    console.error("Error fetching holdings");
+    console.error("Error fetching holdings", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (err: unknown) {
-    console.error("Error fetching holdings");
+    console.error("Error fetching holdings", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
