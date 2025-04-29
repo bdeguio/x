@@ -3,12 +3,10 @@ import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient } from "@/lib/plaid";
 import { createSupabaseClient } from '@/lib/supabase';
 
-const supabase = createSupabaseClient();
-
-
 // --- POST: Fetch new holdings from Plaid and store into Supabase ---
 export async function POST(req: NextRequest) {
   try {
+    const supabase = createSupabaseClient();
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 
@@ -73,6 +71,7 @@ export async function POST(req: NextRequest) {
 // --- GET: Fetch stored holdings from Supabase to display ---
 export async function GET(req: NextRequest) {
   try {
+    const supabase = createSupabaseClient();
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 

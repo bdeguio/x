@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient } from "@/lib/plaid";
-import { createClient } from "@supabase/supabase-js";
-
-// 1️⃣ Initialize Supabase Client (server-side keys from Vercel environment)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // 🔥 Use the secret key for server-only mutations
-);
+import { createSupabaseClient } from '@/lib/supabase';
 
 export async function POST(req: NextRequest) {
   try {
+    const supabase = createSupabaseClient();
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 
