@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
     const access_token = tokenResponse.data.access_token;
     const item_id = tokenResponse.data.item_id;
 
-    console.log("✅ Access Token:", access_token);
-    console.log("✅ Item ID:", item_id);
+    console.log("✅ Access Token");
+    console.log("✅ Item ID");
 
     // 2️⃣ Save Access Token and Institution Info into Supabase
     const { error } = await supabase.from('plaid_tokens').insert([
@@ -30,13 +30,13 @@ export async function POST(req: NextRequest) {
     ]);
 
     if (error) {
-      console.error("❌ Supabase Insert Error:", error);
+      console.error("Supabase Insert Error");
       return NextResponse.json({ error: "Failed to save token" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
-    console.error("❌ Exchange Token Error:", err);
+    console.error("Exchange Token Error");
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

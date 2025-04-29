@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 
-    // 1️⃣ Get access token
+    // Get access token
     const { data: tokenRow, error: tokenError } = await supabase
       .from("plaid_tokens")
       .select("access_token")
@@ -18,18 +18,18 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (tokenError || !tokenRow) {
-      console.error("No access token found for user:", userId);
+      console.error("No access token found for user");
       return NextResponse.json({ error: "No Plaid connection found" }, { status: 400 });
     }
 
     const access_token = tokenRow.access_token;
 
-    // 2️⃣ Fetch holdings from Plaid
+    // Fetch holdings from Plaid
     const holdingsResponse = await plaidClient.investmentsHoldingsGet({ access_token });
     const holdings = holdingsResponse.data.holdings;
     const securities = holdingsResponse.data.securities;
 
-    // 🔥 Build the securityIdToTicker map:
+    // Build the securityIdToTicker map:
     const securityIdToInfo: { [securityId: string]: { ticker: string; name: string } } = {};
     securities.forEach((security) => {
       if (security.security_id && security.ticker_symbol) {
@@ -40,13 +40,13 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    // 3️⃣ Clear old holdings
+    // Clear old holdings
     await supabase
       .from("holdings")
       .delete()
       .eq("user_id", userId);
 
-    // 4️⃣ Insert new holdings
+    // Insert new holdings
     const inserts = holdings.map((holding) => ({
       user_id: userId,
       security_id: holding.security_id,
@@ -57,13 +57,13 @@ export async function POST(req: NextRequest) {
     const { error: insertError } = await supabase.from("holdings").insert(inserts);
 
     if (insertError) {
-      console.error("Failed to insert holdings:", insertError);
+      console.error("Failed to insert holdings");
       return NextResponse.json({ error: "Failed to store holdings" }, { status: 500 });
     }
 
     return NextResponse.json({ message: "Holdings updated successfully" });
   } catch (err: unknown) {
-    console.error("Error fetching holdings:", err);
+    console.error("Error fetching holdings");
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -81,13 +81,13 @@ export async function GET(req: NextRequest) {
       .eq("user_id", userId);
 
     if (error) {
-      console.error("Failed to fetch holdings:", error);
+      console.error("Failed to fetch holdings");
       return NextResponse.json({ error: "Failed to fetch holdings" }, { status: 500 });
     }
 
     return NextResponse.json(data);
   } catch (err: unknown) {
-    console.error("Error fetching holdings:", err);
+    console.error("Error fetching holdings");
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

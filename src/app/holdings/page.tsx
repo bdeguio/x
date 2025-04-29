@@ -5,7 +5,7 @@ import PlaidLinkButton from '@/components/PlaidLinkButton';
 
 type Holding = {
   ticker_symbol: string;
-  company_name?: string; // Optional in case not every asset has a company name
+  company_name?: string;
 };
 
 export default function HoldingsPage() {
@@ -40,18 +40,23 @@ export default function HoldingsPage() {
 
       <div className="grid gap-4 mt-6">
         {loading ? (
-          <div className="text-center text-gray-500">Loading...</div>
+          // Skeleton loaders while loading
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="p-4 rounded border shadow animate-pulse bg-gray-200 h-16" />
+          ))
         ) : holdings.length === 0 ? (
+          // Show "No Holdings Yet" if no holdings
           <div className="text-center text-gray-500">No Holdings Yet</div>
         ) : (
+          // Otherwise render the real holdings
           holdings.map((h, i) => (
             <div
               key={i}
               className="p-4 rounded border shadow flex justify-between items-center"
             >
               <div>
-                <div className="text-lg font-semibold">{h.ticker_symbol}</div> {/* 🔥 Show ticker */}
-                <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div> {/* 🔥 Show company name */}
+                <div className="text-lg font-semibold">{h.ticker_symbol}</div>
+                <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div>
               </div>
             </div>
           ))
