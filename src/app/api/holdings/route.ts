@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseClient } from '@/lib/supabase';
+
+const supabase = createSupabaseClient();
+
 
 export async function GET(req: NextRequest) {
   try {

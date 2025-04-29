@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient } from "@/lib/plaid";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseClient } from '@/lib/supabase';
+
+const supabase = createSupabaseClient();
+
 
 // --- POST: Fetch new holdings from Plaid and store into Supabase ---
 export async function POST(req: NextRequest) {
