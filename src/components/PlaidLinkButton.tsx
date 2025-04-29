@@ -18,13 +18,27 @@ export default function PlaidLinkButton() {
 
   const { open, ready } = usePlaidLink({
     token: linkToken || '',
-    onSuccess: (public_token, metadata) => {
+    onSuccess: async (public_token, metadata) => {
       console.log('✅ Success:', public_token, metadata);
-      // 🔥 Later: Exchange public_token for access_token
-    },
-    onExit: (err, metadata) => {
-      console.log('👋 User exited:', err, metadata);
-    },
+    
+      const exchangeRes = await fetch('/api/plaid/exchange-public-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ public_token }),
+      });
+    
+      const { access_token } = await exchangeRes.json();
+      console.log('✅ Access token saved:', access_token);
+    
+      // ADD THIS AFTER saving access token:
+      await fetch('/api/plaid/holdings', {
+        method: 'POST',
+      });
+    
+      console.log('✅ Holdings fetched and stored!');
+    }
   });
 
   if (!ready) return <div>Loading...</div>;
@@ -35,7 +49,7 @@ export default function PlaidLinkButton() {
       disabled={!ready}
       className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     >
-      Load Holdings ✨
+      Connect Your Bank ✨
     </button>
   );
 }
