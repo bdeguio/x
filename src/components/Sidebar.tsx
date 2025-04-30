@@ -15,7 +15,7 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
 
   useEffect(() => {
     async function loadUserId() {
-      const res = await fetch('/api/userid');
+      const res = await fetch('/api/sync-profile');
       const data = await res.json();
       setUserId(data?.id || 'XXXXXX');
     }
