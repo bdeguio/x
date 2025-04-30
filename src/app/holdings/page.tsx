@@ -37,11 +37,11 @@ export default function HoldingsPage() {
       {/* Toggle Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 px-3 py-2 bg-transparent hover:bg-transparent rounded"
+        className="fixed top-4 left-4 z-50 px-6 py-4 bg-transparent hover:bg-transparent rounded"
       >
         ☰
       </button>
-      <div className="mb-12" />
+      <div className="mb-20" />
 
       {/* Sidebar (Responsive) */}
       <Sidebar isOpen={sidebarOpen} onRefresh={fetchHoldings} />
@@ -50,7 +50,7 @@ export default function HoldingsPage() {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          className="fixed inset-0 bg-white dark:bg-black bg-opacity-30 z-30 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
