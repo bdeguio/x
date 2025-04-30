@@ -23,7 +23,7 @@ export default function RefreshHoldingsButton({ onRefresh }: RefreshHoldingsButt
         onClick={handleClick}
         disabled={refreshing}
         className={`px-4 py-2 rounded text-white ${
-          refreshing ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'
+          refreshing ? 'bg-gray-500' : 'bg-purple-600 hover:bg-purple-700'
         }`}
       >
         {refreshing ? 'Refreshing...' : 'Refresh'}

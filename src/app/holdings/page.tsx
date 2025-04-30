@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import PlaidLinkButton from '@/components/PlaidLinkButton';
-import RefreshHoldingsButton from '@/components/RefreshHoldingsButton';
+import Sidebar from '@/components/Sidebar';
 
 type Holding = {
   ticker_symbol: string;
@@ -12,6 +11,7 @@ type Holding = {
 export default function HoldingsPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const fetchHoldings = async () => {
     setLoading(true);
@@ -33,33 +33,52 @@ export default function HoldingsPage() {
   }, []);
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold mb-4">Your Holdings</h2>
+    <div className="relative h-screen overflow-hidden">
+      {/* Toggle Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="fixed top-4 left-4 z-50 px-3 py-2 bg-transparent hover:bg-transparent rounded"
+      >
+        ☰
+      </button>
+      <div className="mb-12" />
 
-      <PlaidLinkButton />
-      <RefreshHoldingsButton onRefresh={fetchHoldings} />
+      {/* Sidebar (Responsive) */}
+      <Sidebar isOpen={sidebarOpen} onRefresh={fetchHoldings} />
 
-      <div className="grid gap-4 mt-6">
-        {loading ? (
-          Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="p-4 rounded border shadow animate-pulse bg-gray-200 h-16" />
-          ))
-        ) : holdings.length === 0 ? (
-          <div className="text-center text-gray-500">No Holdings Yet</div>
-        ) : (
-          holdings.map((h, i) => (
-            <div
-              key={i}
-              className="p-4 rounded border shadow flex justify-between items-center"
-            >
-              <div>
-                <div className="text-lg font-semibold">{h.ticker_symbol}</div>
-                <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main content */}
+      <main className="h-full overflow-y-auto p-6">
+        <div className="grid gap-4 mt-6">
+          {loading ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="p-4 rounded border shadow animate-pulse bg-gray-200 h-16" />
+            ))
+          ) : holdings.length === 0 ? (
+            <div className="text-center text-gray-500">No Holdings Yet</div>
+          ) : (
+            holdings.map((h, i) => (
+              <div
+                key={i}
+                className="p-4 rounded border shadow flex justify-between items-center"
+              >
+                <div>
+                  <div className="text-lg font-semibold">{h.ticker_symbol}</div>
+                  <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div>
+                </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      </main>
     </div>
   );
 }
