@@ -24,13 +24,14 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
 
   return (
     <aside
-      className={clsx(
-        'fixed top-0 left-0 h-full w-64 bg-black p-4 shadow-md border-r transform transition-transform duration-300 z-40',
+        className={clsx(
+        'fixed top-0 left-0 h-full w-64 p-4 shadow-md border-r transform transition-transform duration-300 z-40',
+        'bg-white text-black dark:bg-neutral-900 dark:text-white',
         {
-          '-translate-x-full': !isOpen,
-          'translate-x-0': isOpen,
+        '-translate-x-full': !isOpen,
+        'translate-x-0': isOpen,
         }
-      )}
+    )}
     >
       <div className="text-center text-lg font-semibold mt-4 mb-6">
         ID: {userId}
