@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import PlaidLinkButton from '@/components/PlaidLinkButton';
+import RefreshHoldingsButton from '@/components/RefreshHoldingsButton';
 
 type Holding = {
   ticker_symbol: string;
@@ -12,24 +13,23 @@ export default function HoldingsPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadHoldings() {
-      try {
-        const res = await fetch('/api/holdings');
-        const data = await res.json();
-        console.log("🎯 Holdings response:", data);
-
-        if (Array.isArray(data)) {
-          setHoldings(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch holdings:", err);
-      } finally {
-        setLoading(false);
+  const fetchHoldings = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/holdings');
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setHoldings(data);
       }
+    } catch (err) {
+      console.error("Failed to fetch holdings:", err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    loadHoldings();
+  useEffect(() => {
+    fetchHoldings();
   }, []);
 
   return (
@@ -37,18 +37,16 @@ export default function HoldingsPage() {
       <h2 className="text-2xl font-bold mb-4">Your Holdings</h2>
 
       <PlaidLinkButton />
+      <RefreshHoldingsButton onRefresh={fetchHoldings} />
 
       <div className="grid gap-4 mt-6">
         {loading ? (
-          // Skeleton loaders while loading
           Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="p-4 rounded border shadow animate-pulse bg-gray-200 h-16" />
           ))
         ) : holdings.length === 0 ? (
-          // Show "No Holdings Yet" if no holdings
           <div className="text-center text-gray-500">No Holdings Yet</div>
         ) : (
-          // Otherwise render the real holdings
           holdings.map((h, i) => (
             <div
               key={i}
