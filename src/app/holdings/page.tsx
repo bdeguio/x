@@ -32,6 +32,19 @@ export default function HoldingsPage() {
     fetchHoldings();
   }, []);
 
+  useEffect(() => {
+    // Ensure short_id is synced on sign-in
+    const syncUserProfile = async () => {
+      try {
+        await fetch('/api/sync-profile');
+      } catch (err) {
+        console.error('Failed to sync user profile:', err);
+      }
+    };
+  
+    syncUserProfile();
+  }, []);
+  
   return (
     <div className="relative h-screen overflow-hidden">
       {/* Toggle Button */}
