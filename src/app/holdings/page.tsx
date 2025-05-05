@@ -47,19 +47,18 @@ export default function HoldingsPage() {
   
   return (
     <div className="relative h-screen overflow-hidden">
+  
       {/* Toggle Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 px-6 py-4 bg-transparent hover:bg-transparent rounded"
+        className="fixed top-4 left-4 z-50 px-6 py-4 bg-transparent rounded border border-transparent hover:border-gray-400 transition"
       >
         ☰
       </button>
-      <div className="mb-20" />
-
-      {/* Sidebar (Responsive) */}
+  
+      {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onRefresh={fetchHoldings} />
-
-
+  
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
@@ -67,10 +66,10 @@ export default function HoldingsPage() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-
-      {/* Main content */}
-      <main className="h-full overflow-y-auto p-6">
-        <div className="grid gap-4 mt-6">
+  
+      {/* Main content wrapper */}
+      <main className="absolute top-0 left-0 right-0 bottom-0 pt-20 overflow-y-auto p-6">
+        <div className="grid gap-4">
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="p-4 rounded border shadow animate-pulse bg-gray-200 h-16" />
@@ -93,5 +92,5 @@ export default function HoldingsPage() {
         </div>
       </main>
     </div>
-  );
+  );  
 }
