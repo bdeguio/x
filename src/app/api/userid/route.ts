@@ -4,13 +4,14 @@ import { createSupabaseClient } from '@/lib/supabase';
 import { nanoid } from 'nanoid';
 
 export async function GET(request: NextRequest) {
-    const { userId } = getAuth(request);
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const { userId } = getAuth(request);
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    const supabase = createSupabaseClient();
+  const supabase = createSupabaseClient();
 
-  // Check if user already exists
-  let { data: profile, error } = await supabase
+  const { data: profile, error } = await supabase
     .from('profiles')
     .select('short_id')
     .eq('id', userId)
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   if (!profile && error?.code === 'PGRST116') {
     const short_id = nanoid(6).toUpperCase();
-    const { data, error: insertError } = await supabase
+    const { data: newProfile, error: insertError } = await supabase
       .from('profiles')
       .insert({ id: userId, short_id })
       .select('short_id')
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
 
-    profile = data;
+    return NextResponse.json({ id: newProfile.short_id });
   }
 
   if (!profile || error) {
