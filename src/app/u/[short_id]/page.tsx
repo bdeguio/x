@@ -24,9 +24,12 @@ export default function UserHoldingsPage() {
       const data = await res.json();
       if (Array.isArray(data)) {
         setHoldings(data);
+      } else {
+        setHoldings([]); // Fallback for unexpected API response
       }
     } catch (err) {
       console.error("Failed to fetch holdings:", err);
+      setHoldings([]);
     } finally {
       setLoading(false);
     }
