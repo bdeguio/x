@@ -42,13 +42,29 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
         }
       )}
     >
-      <div className="text-center text-lg font-semibold mt-4 mb-6">
-        ID: {userId}
-      </div>
+      <div className="flex flex-col h-full justify-between">
+        {/* Center zone with follows + ID */}
+        <div className="flex flex-col items-center justify-center flex-grow">
+          {/* Follows list growing upward */}
+          <div className="flex flex-col-reverse items-center space-y-reverse space-y-2 mb-4">
+            <div className="text-sm text-gray-500">XXXXXX</div>
+            <div className="text-sm text-gray-500">XXXXXX</div>
+            <div className="text-sm text-gray-500">XXXXXX</div>
+          </div>
 
-      <PlaidLinkButton />
-      <div className="mt-4">
-        <RefreshHoldingsButton onRefresh={onRefresh} />
+          {/* Anchored User ID with borders */}
+          <div className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium">
+            ID: {userId}
+          </div>
+        </div>
+
+        {/* Bottom buttons */}
+        <div>
+          <PlaidLinkButton />
+          <div className="mt-4">
+            <RefreshHoldingsButton onRefresh={onRefresh} />
+          </div>
+        </div>
       </div>
     </aside>
   );
