@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
+import FollowButton from '@/components/FollowButton'
+
 
 type Holding = {
   ticker_symbol: string;
@@ -60,6 +62,10 @@ export default function UserHoldingsPage() {
       )}
 
       <main className="absolute top-0 left-0 right-0 bottom-0 pt-20 overflow-y-auto p-6">
+        <div className="flex justify-end mb-6">
+          <FollowButton followedShortId={short_id} />
+        </div>
+        
         <div className="grid gap-4">
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
