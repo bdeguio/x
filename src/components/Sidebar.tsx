@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import RefreshHoldingsButton from './RefreshHoldingsButton';
-import PlaidLinkButton from './PlaidLinkButton';
 import clsx from 'clsx';
 import { useUser } from '@clerk/nextjs';
+import FollowedProfilesList from './FollowedProfilesList';
+import RefreshHoldingsButton from './RefreshHoldingsButton';
+import PlaidLinkButton from './PlaidLinkButton';
 
 type Props = {
   isOpen: boolean;
@@ -22,7 +23,7 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
       try {
         const res = await fetch('/api/userid');
         const data = await res.json();
-        setUserId(data?.id || 'XXXXXX');
+        setUserId(data?.id || null);
       } catch (err) {
         console.error('Failed to load user ID:', err);
       }
@@ -43,22 +44,15 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
       )}
     >
       <div className="flex flex-col h-full justify-between">
-        {/* Center zone with follows + ID */}
+        {/* Followed profiles + User ID */}
         <div className="flex flex-col items-center justify-center flex-grow">
-          {/* Follows list growing upward */}
-          <div className="flex flex-col-reverse items-center space-y-reverse space-y-2 mb-4">
-            <div className="text-sm text-gray-500">XXXXXX</div>
-            <div className="text-sm text-gray-500">XXXXXX</div>
-            <div className="text-sm text-gray-500">XXXXXX</div>
-          </div>
-
-          {/* Anchored User ID with borders */}
+          <FollowedProfilesList />
           <div className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium">
-            ID: {userId}
+            ID: {userId || 'Loading...'}
           </div>
         </div>
 
-        {/* Bottom buttons */}
+        {/* Action buttons */}
         <div>
           <PlaidLinkButton />
           <div className="mt-4">
