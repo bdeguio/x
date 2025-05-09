@@ -48,7 +48,7 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
         {/* Followed profiles + User ID */}
         <div className="flex flex-col items-center justify-center flex-grow">
           <FollowedProfilesList />
-          <Link href="/holdings" className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium hover:underline cursor-pointer">
+          <Link href="/holdings" className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium hover:text-purple-500 cursor-pointer">
             {userId || 'Loading...'}
           </Link>
         </div>

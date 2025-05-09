@@ -46,7 +46,8 @@ export default function FollowedProfilesList() {
         followedShortIds.map((id) => {
           const href = id === myShortId ? '/holdings' : `/u/${id}`;
           return (
-            <Link key={id} href={href} className="text-sm text-blue-500 hover:underline">
+            <Link key={id} href={href} className="text-sm text-gray-500 hover:text-purple-500 transition-colors"
+            >
               {id}
             </Link>
           );
