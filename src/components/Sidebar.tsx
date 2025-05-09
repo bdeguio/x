@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useUser } from '@clerk/nextjs';
 import FollowedProfilesList from './FollowedProfilesList';
+import Link from 'next/link';
 import RefreshHoldingsButton from './RefreshHoldingsButton';
 import PlaidLinkButton from './PlaidLinkButton';
 
@@ -47,9 +48,9 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
         {/* Followed profiles + User ID */}
         <div className="flex flex-col items-center justify-center flex-grow">
           <FollowedProfilesList />
-          <div className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium">
-            ID: {userId || 'Loading...'}
-          </div>
+          <Link href="/holdings" className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium hover:underline cursor-pointer">
+            {userId || 'Loading...'}
+          </Link>
         </div>
 
         {/* Action buttons */}
