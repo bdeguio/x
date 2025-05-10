@@ -11,8 +11,8 @@ import PlaidLinkButton from './PlaidLinkButton';
 type Props = {
   isOpen: boolean;
   onRefresh: () => Promise<void>;
+  onClose: () => void; // ✅ add this line
 };
-
 export default function Sidebar({ isOpen, onRefresh }: Props) {
   const [userId, setUserId] = useState<string | null>(null);
   const { isSignedIn } = useUser();
@@ -23,6 +23,7 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
     const loadUserId = async () => {
       try {
         const res = await fetch('/api/userid');
+        if (!res.ok) throw new Error('Failed to fetch user ID');
         const data = await res.json();
         setUserId(data?.id || null);
       } catch (err) {

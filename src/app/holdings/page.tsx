@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Sidebar from '@/components/Sidebar';
 
 type Holding = {
   ticker_symbol: string;
@@ -47,25 +46,6 @@ export default function HoldingsPage() {
   
   return (
     <div className="relative h-screen overflow-hidden">
-  
-      {/* Toggle Button */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 px-6 py-4 bg-transparent rounded border border-transparent hover:border-gray-400 transition"
-      >
-        ☰
-      </button>
-  
-      {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onRefresh={fetchHoldings} />
-  
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-white dark:bg-black bg-opacity-30 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
   
       {/* Main content wrapper */}
       <main className="absolute top-0 left-0 right-0 bottom-0 pt-20 overflow-y-auto p-6">

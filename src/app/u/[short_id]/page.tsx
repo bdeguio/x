@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Sidebar from '@/components/Sidebar';
-import FollowButton from '@/components/FollowButton'
 
 
 type Holding = {
@@ -17,8 +15,7 @@ export default function UserHoldingsPage() {
 
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  
   const fetchHoldings = async () => {
     setLoading(true);
     try {
@@ -45,26 +42,8 @@ export default function UserHoldingsPage() {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 px-6 py-4 bg-transparent rounded border border-transparent hover:border-gray-400 transition"
-      >
-        ☰
-      </button>
-
-      <Sidebar isOpen={sidebarOpen} onRefresh={fetchHoldings} />
-
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-white dark:bg-black bg-opacity-30 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
       <main className="absolute top-0 left-0 right-0 bottom-0 pt-20 overflow-y-auto p-6">
-        <div className="flex justify-end mb-6">
-          <FollowButton followedShortId={short_id} />
-        </div>
         
         <div className="grid gap-4">
           {loading ? (
