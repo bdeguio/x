@@ -10,7 +10,6 @@ type Holding = {
 export default function HoldingsPage() {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const fetchHoldings = async () => {
     setLoading(true);
@@ -29,19 +28,6 @@ export default function HoldingsPage() {
 
   useEffect(() => {
     fetchHoldings();
-  }, []);
-
-  useEffect(() => {
-    // Ensure short_id is synced on sign-in
-    const syncUserProfile = async () => {
-      try {
-        await fetch('/api/sync-profile');
-      } catch (err) {
-        console.error('Failed to sync user profile:', err);
-      }
-    };
-  
-    syncUserProfile();
   }, []);
   
   return (

@@ -10,14 +10,14 @@ interface FollowButtonProps {
 
 export default function FollowButton({ followedShortId }: FollowButtonProps) {
   const { user } = useUser();
-  const supabase = createSupabaseClient();
-
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Safely check follow status on mount
   useEffect(() => {
     const checkFollow = async () => {
       if (!user?.id) return;
+      const supabase = createSupabaseClient(); // ✅ moved inside
 
       const { data, error } = await supabase
         .from('followed_profiles')
@@ -32,11 +32,12 @@ export default function FollowButton({ followedShortId }: FollowButtonProps) {
     };
 
     checkFollow();
-  }, [user?.id, followedShortId]);
+  }, [user?.id, followedShortId]); // ✅ clean dependency array
 
   const handleClick = async () => {
     if (!user?.id) return;
     setLoading(true);
+    const supabase = createSupabaseClient();
 
     if (isFollowing) {
       const { error } = await supabase
