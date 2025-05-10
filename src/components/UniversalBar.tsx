@@ -134,51 +134,51 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
         <div className="flex-grow pt-6 pb-28 px-4">{children}</div>
 
         {/* Sticky Input Bar */}
-        <div className="sticky bottom-0 w-full z-40 bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-700 rounded-t-2xl">
-          <div className="bg-gray-100/80 dark:bg-zinc-800/80 backdrop-blur-md rounded-2xl px-4 py-3 shadow-sm transition-all duration-200 ease-in-out focus-within:ring-2 focus-within:ring-purple-500 focus-within:shadow-md space-y-2">
+        <div className="sticky bottom-0 w-full z-50 px-2 sm:px-4 bg-transparent">
+          <div className="mx-auto w-full max-w-2xl px-4 py-3 rounded-t-2xl bg-white dark:bg-zinc-900 shadow-md border-t border-gray-200 dark:border-zinc-700">
+            <div className="flex flex-col gap-2 bg-gray-100 dark:bg-zinc-800 rounded-2xl px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-purple-500">
+              {/* Search row */}
+              <div className="flex items-center gap-2">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  inputMode="text"
+                  placeholder="Search user ID..."
+                  className="flex-1 bg-transparent outline-none text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  value={inputId}
+                  onChange={(e) => setInputId(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+                />
+                <button
+                  onClick={handleSubmit}
+                  className="text-purple-600 dark:text-purple-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 text-xs font-medium border border-purple-200 dark:border-purple-600 hover:bg-purple-50 dark:hover:bg-zinc-600"
+                >
+                  Search
+                </button>
+              </div>
 
-            {/* Input + Search Button */}
-            <div className="flex items-center gap-2">
-              <input
-                ref={inputRef}
-                type="text"
-                inputMode="text"
-                placeholder="Search user ID..."
-                className="flex-1 text-base bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-full px-4 py-2 focus:outline-none"
-                value={inputId}
-                onChange={(e) => setInputId(e.target.value.toUpperCase())}
-                onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-              />
-              <button
-                onClick={handleSubmit}
-                className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full px-4 py-2"
-              >
-                Search
-              </button>
+              {/* Action row */}
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => setSidebarOpen((prev) => !prev)}
+                  className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600"
+                >
+                  ☰
+                </button>
+
+                {pathname?.startsWith('/u/') &&
+                  currentShortId &&
+                  currentShortId !== myShortId && (
+                    <button
+                      onClick={handleFollowClick}
+                      disabled={followLoading}
+                      className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600 transition"
+                    >
+                      {followLoading ? '...' : isFollowing ? 'Unfollow' : 'Follow'}
+                    </button>
+                  )}
+              </div>
             </div>
-
-            {/* Follow + Sidebar Buttons */}
-            <div className="flex justify-between items-center">
-              <button
-                onClick={() => setSidebarOpen((prev) => !prev)}
-                className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600"
-              >
-                ☰
-              </button>
-
-              {pathname?.startsWith('/u/') &&
-                currentShortId &&
-                currentShortId !== myShortId && (
-                  <button
-                    onClick={handleFollowClick}
-                    disabled={followLoading}
-                    className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600 transition"
-                  >
-                    {followLoading ? '...' : isFollowing ? 'Unfollow' : 'Follow'}
-                  </button>
-                )}
-            </div>
-
           </div>
         </div>
       </div>
