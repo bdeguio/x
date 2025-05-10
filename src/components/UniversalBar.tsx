@@ -119,62 +119,69 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
 
   return (
     <>
-    <Sidebar isOpen={sidebarOpen} onRefresh={handleRefresh} onClose={handleCloseSidebar} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        onRefresh={handleRefresh}
+        onClose={handleCloseSidebar}
+      />
 
-    {/* Everything shifts together here */}
-    <div className={clsx(
-        'transition-transform duration-300',
-        sidebarOpen ? 'translate-x-64' : ''
-    )}>
-        {/* Bottom bar */}
-        <div className="sticky bottom-0 left-1/2 transform -translate-x-1/2 w-[95%] max-w-2xl px-4 py-3 rounded-t-2xl bg-white dark:bg-zinc-900 shadow-md border-t border-gray-200 dark:border-zinc-700 z-40">
-        <div className="flex flex-col gap-2 bg-gray-100 dark:bg-zinc-800 rounded-2xl px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-purple-500">
+      <div
+        className={clsx(
+          'transition-transform duration-300 min-h-screen flex flex-col',
+          sidebarOpen ? 'translate-x-64' : ''
+        )}
+      >
+        {/* Page Content */}
+        <div className="flex-grow pt-6 pb-28 px-4">{children}</div>
+
+        {/* Sticky Input Bar */}
+        <div className="sticky bottom-0 w-full z-40 bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-700">
+          <div className="mx-auto w-[95%] max-w-2xl px-4 py-2 space-y-2">
+
+            {/* ID Input + Send */}
             <div className="flex items-center gap-2">
-            <input
+              <input
                 ref={inputRef}
                 type="text"
+                inputMode="text"
                 placeholder="Search user ID..."
-                className="flex-1 bg-transparent outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                className="flex-1 text-base bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={inputId}
                 onChange={(e) => setInputId(e.target.value.toUpperCase())}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-            />
-            <button
+              />
+              <button
                 onClick={handleSubmit}
-                className="text-purple-600 dark:text-purple-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 text-xs font-medium border border-purple-200 dark:border-purple-600 hover:bg-purple-50 dark:hover:bg-zinc-600"
-            >
+                className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-full px-4 py-2"
+              >
                 Search
-            </button>
+              </button>
             </div>
 
+            {/* Follow + Sidebar buttons */}
             <div className="flex justify-between items-center">
-            <button
-                onClick={() => setSidebarOpen(prev => !prev)} // toggles open & close
+              <button
+                onClick={() => setSidebarOpen((prev) => !prev)}
                 className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600"
-            >
+              >
                 ☰
-            </button>
+              </button>
 
-            {pathname?.startsWith('/u/') &&
+              {pathname?.startsWith('/u/') &&
                 currentShortId &&
                 currentShortId !== myShortId && (
-                <button
+                  <button
                     onClick={handleFollowClick}
                     disabled={followLoading}
                     className="text-xs text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 shadow-sm border border-gray-300 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-600 transition"
-                >
+                  >
                     {followLoading ? '...' : isFollowing ? 'Unfollow' : 'Follow'}
-                </button>
+                  </button>
                 )}
             </div>
+          </div>
         </div>
-        </div>
-
-        {/* Main page content */}
-        <div className="pt-6 pb-32 px-4">
-          {children}
-        </div>
-    </div>
+      </div>
     </>
   );
 }
