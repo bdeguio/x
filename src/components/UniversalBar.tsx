@@ -126,8 +126,8 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
         'transition-transform duration-300',
         sidebarOpen ? 'translate-x-64' : ''
     )}>
-        {/* Top bar */}
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] max-w-2xl px-4 py-3 rounded-b-2xl bg-white dark:bg-zinc-900 shadow-md border-b border-gray-200 dark:border-zinc-700 z-50">
+        {/* Bottom bar */}
+        <div className="sticky bottom-0 left-1/2 transform -translate-x-1/2 w-[95%] max-w-2xl px-4 py-3 rounded-t-2xl bg-white dark:bg-zinc-900 shadow-md border-t border-gray-200 dark:border-zinc-700 z-40">
         <div className="flex flex-col gap-2 bg-gray-100 dark:bg-zinc-800 rounded-2xl px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-purple-500">
             <div className="flex items-center gap-2">
             <input
@@ -171,8 +171,8 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
         </div>
 
         {/* Main page content */}
-        <div className="pt-24 px-4">
-        {children}
+        <div className="pt-6 pb-32 px-4">
+          {children}
         </div>
     </div>
     </>

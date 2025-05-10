@@ -23,7 +23,11 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <Toaster position="top-center" />
-          <UniversalBar>{children}</UniversalBar>
+          <div className="flex flex-col min-h-screen">
+            <UniversalBar>
+              <main className="flex-grow overflow-y-auto">{children}</main>
+            </UniversalBar>
+          </div>
         </body>
       </html>
     </ClerkProvider>
