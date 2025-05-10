@@ -116,7 +116,6 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
   const handleCloseSidebar = () => setSidebarOpen(false);
 
   if (!showBar) return <>{children}</>;
-
   return (
     <>
       <Sidebar
@@ -135,17 +134,17 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
         <div className="flex-grow pt-6 pb-28 px-4">{children}</div>
 
         {/* Sticky Input Bar */}
-        <div className="sticky bottom-0 w-full z-40 bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-700">
-          <div className="mx-auto w-[95%] max-w-2xl px-4 py-2 space-y-2">
+        <div className="sticky bottom-0 w-full z-40 bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-700 rounded-t-2xl">
+          <div className="bg-gray-100/80 dark:bg-zinc-800/80 backdrop-blur-md rounded-2xl px-4 py-3 shadow-sm transition-all duration-200 ease-in-out focus-within:ring-2 focus-within:ring-purple-500 focus-within:shadow-md space-y-2">
 
-            {/* ID Input + Send */}
+            {/* Input + Search Button */}
             <div className="flex items-center gap-2">
               <input
                 ref={inputRef}
                 type="text"
                 inputMode="text"
                 placeholder="Search user ID..."
-                className="flex-1 text-base bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 text-base bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-full px-4 py-2 focus:outline-none"
                 value={inputId}
                 onChange={(e) => setInputId(e.target.value.toUpperCase())}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
@@ -158,7 +157,7 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
               </button>
             </div>
 
-            {/* Follow + Sidebar buttons */}
+            {/* Follow + Sidebar Buttons */}
             <div className="flex justify-between items-center">
               <button
                 onClick={() => setSidebarOpen((prev) => !prev)}
@@ -179,9 +178,11 @@ export default function UniversalBar({ children }: { children: React.ReactNode }
                   </button>
                 )}
             </div>
+
           </div>
         </div>
       </div>
     </>
   );
+
 }
