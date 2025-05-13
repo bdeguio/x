@@ -51,9 +51,9 @@ export default function PlaidLinkButton() {
     <button
       onClick={() => open()}
       disabled={!ready}
-      className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+      className="text-sm text-purple-500 hover:text-gray-400 transition-colors duration-150 disabled:opacity-50"
     >
       Load Holdings ✨
     </button>
-  );
+  )
 }

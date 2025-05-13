@@ -6,14 +6,14 @@ import { useUser } from '@clerk/nextjs';
 import FollowedProfilesList from './FollowedProfilesList';
 import Link from 'next/link';
 import RefreshHoldingsButton from './RefreshHoldingsButton';
-import PlaidLinkButton from './PlaidLinkButton';
 
 type Props = {
   isOpen: boolean;
   onRefresh: () => Promise<void>;
-  onClose: () => void; // ✅ add this line
+  onClose: () => void;
 };
-export default function Sidebar({ isOpen, onRefresh }: Props) {
+
+export default function Sidebar({ isOpen, onRefresh, onClose }: Props) {
   const [userId, setUserId] = useState<string | null>(null);
   const { isSignedIn } = useUser();
 
@@ -48,18 +48,32 @@ export default function Sidebar({ isOpen, onRefresh }: Props) {
       <div className="flex flex-col h-full justify-between">
         {/* Followed profiles + User ID */}
         <div className="flex flex-col items-center justify-center flex-grow">
-          <FollowedProfilesList />
-          <Link href="/holdings" className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium hover:text-purple-500 cursor-pointer">
+          <FollowedProfilesList onClose={onClose} />
+          <Link
+            href="/holdings"
+            onClick={onClose}
+            className="w-full border-t border-b border-gray-300 py-3 text-center text-sm font-medium hover:text-purple-500 cursor-pointer"
+          >
             {userId || 'Loading...'}
           </Link>
         </div>
 
         {/* Action buttons */}
         <div>
-          <PlaidLinkButton />
           <div className="mt-4">
             <RefreshHoldingsButton onRefresh={onRefresh} />
           </div>
+        </div>
+
+        {/* Settings link with divider */}
+        <div className="mt-4 border-t border-gray-300 dark:border-zinc-700 pt-3 text-center">
+          <Link
+            href="/settings"
+            onClick={onClose}
+            className="text-sm text-zinc-500 hover:text-purple-500 transition-colors"
+          >
+            Settings
+          </Link>
         </div>
       </div>
     </aside>

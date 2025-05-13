@@ -4,12 +4,19 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { createSupabaseClient } from '@/lib/supabase';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
-export default function FollowedProfilesList() {
+type Props = {
+  onClose: () => void;
+};
+
+export default function FollowedProfilesList({ onClose }: Props) {
   const { user, isSignedIn } = useUser();
   const [followedShortIds, setFollowedShortIds] = useState<string[]>([]);
   const [myShortId, setMyShortId] = useState<string | null>(null);
   const supabase = createSupabaseClient();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!isSignedIn || !user?.id) return;
@@ -38,21 +45,43 @@ export default function FollowedProfilesList() {
     loadData();
   }, [isSignedIn, user?.id, supabase]);
 
+  // Handle optimistic update when a new follow happens
+  useEffect(() => {
+    const handleNewFollow = (e: any) => {
+      const newId = e.detail;
+      setFollowedShortIds((prev) => {
+        if (prev.includes(newId)) return prev;
+        return [...prev, newId];
+      });
+    };
+
+    window.addEventListener('new-follow', handleNewFollow);
+    return () => window.removeEventListener('new-follow', handleNewFollow);
+  }, []);
+
   return (
     <div className="flex flex-col-reverse items-center space-y-reverse space-y-2 mb-4">
-      {followedShortIds.length === 0 ? (
-        <div className="text-sm text-gray-500">No follows yet</div>
-      ) : (
-        followedShortIds.map((id) => {
-          const href = id === myShortId ? '/holdings' : `/u/${id}`;
-          return (
-            <Link key={id} href={href} className="text-sm text-gray-500 hover:text-purple-500 transition-colors"
-            >
-              {id}
-            </Link>
-          );
-        })
-      )}
+      {followedShortIds.map((id) => {
+        const href = id === myShortId ? '/holdings' : `/u/${id}`;
+        const isActive = pathname === href;
+
+        return (
+          <Link
+            key={id}
+            href={href}
+            onClick={onClose}
+            className={clsx(
+              'text-sm transition-colors',
+              isActive
+                ? 'text-purple-600 font-semibold'
+                : 'text-gray-500 hover:text-purple-500'
+            )}
+          >
+            {id}
+          </Link>
+        );
+      })}
+
     </div>
   );
 }
