@@ -47,7 +47,7 @@ export default function FollowedProfilesList({ onClose }: Props) {
 
   // Handle optimistic update when a new follow happens
   useEffect(() => {
-    const handleNewFollow = (e: any) => {
+    const handleNewFollow = (e: CustomEvent<string>) => {
       const newId = e.detail;
       setFollowedShortIds((prev) => {
         if (prev.includes(newId)) return prev;
@@ -55,8 +55,11 @@ export default function FollowedProfilesList({ onClose }: Props) {
       });
     };
 
-    window.addEventListener('new-follow', handleNewFollow);
-    return () => window.removeEventListener('new-follow', handleNewFollow);
+    window.addEventListener('follow:new', handleNewFollow as EventListener);
+
+    return () => {
+      window.removeEventListener('follow:new', handleNewFollow as EventListener);
+    };
   }, []);
 
   return (
