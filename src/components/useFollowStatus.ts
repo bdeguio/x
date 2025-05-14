@@ -3,8 +3,13 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useParams } from 'next/navigation';
 
+type FollowedProfile = {
+  followed_short_id: string;
+  user_id: string;
+};
+
 export function useFollowStatus() {
-  const pathname = usePathname();
+  const pathname = usePathname()!;
   const params = useParams();
 
   const currentId = (params?.short_id as string)?.toUpperCase() || null;
@@ -25,7 +30,10 @@ export function useFollowStatus() {
       if (!myId || !currentId || myId === currentId) return;
       const res = await fetch(`/api/follows/${myId}`);
       const data = await res.json();
-      const followed = data?.some((d: any) => d.followed_short_id === currentId);
+
+      const followed = (data as FollowedProfile[])?.some(
+        (d) => d.followed_short_id === currentId
+      );
       setIsFollowing(followed);
     };
     checkFollow();
@@ -48,8 +56,6 @@ export function useFollowStatus() {
     });
 
     setIsFollowing(true);
-
-    // ✅ Notify FollowedProfilesList to update optimistically
     window.dispatchEvent(new CustomEvent('new-follow', { detail: currentId }));
   };
 

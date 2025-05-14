@@ -9,7 +9,6 @@ type ConnectedAccount = {
   id: string;
   account_name: string;
   user_id: string;
-  // add more fields if needed
 };
 
 export default function SettingsPage() {
@@ -20,12 +19,10 @@ export default function SettingsPage() {
   const removeAccount = async (accountId: string) => {
     const supabase = createSupabaseClient();
     await supabase.from('connected_accounts').delete().eq('id', accountId);
-    fetchAccounts();
-  };
-
-  const fetchAccounts = async () => {
+    
+    // Re-fetch directly here
     if (!user) return;
-    const supabase = createSupabaseClient();
+    setLoading(true);
     const { data, error } = await supabase
       .from('connected_accounts')
       .select('*')
@@ -37,6 +34,19 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
+    const fetchAccounts = async () => {
+      if (!user) return;
+      const supabase = createSupabaseClient();
+      const { data, error } = await supabase
+        .from('connected_accounts')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (error) console.error('Error fetching accounts:', error);
+      else setAccounts((data as ConnectedAccount[]) || []);
+      setLoading(false);
+    };
+
     fetchAccounts();
   }, [user]);
 

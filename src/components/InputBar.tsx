@@ -13,12 +13,11 @@ export default function InputBar() {
   const [inputId, setInputId] = useState('');
 
   // Autofill if you're on /u/[short_id]
-useEffect(() => {
-  if (typeof pathname === 'string' && pathname.startsWith('/u/') && currentShortId) {
-    setInputId(currentShortId);
-  }
-}, [pathname, currentShortId]);
-
+  useEffect(() => {
+    if (typeof pathname === 'string' && pathname.startsWith('/u/') && currentShortId) {
+      setInputId(currentShortId);
+    }
+  }, [pathname, currentShortId]);
 
   const handleSubmit = async () => {
     const trimmed = inputId.trim().toUpperCase();
