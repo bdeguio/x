@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import FollowButton from '@/components/FollowButton';
 
 type Holding = {
   ticker_symbol: string;
@@ -66,6 +67,7 @@ export default function UserHoldingsPage() {
           )}
         </div>
       </main>
+      <FollowButton />
     </div>
   );
 }

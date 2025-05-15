@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
-import { createSupabaseClient } from '@/lib/supabase';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { createSupabaseClient } from '@/lib/supabase';
 
 type Props = {
   onClose: () => void;
@@ -13,23 +13,23 @@ type Props = {
 
 export default function FollowedProfilesList({ onClose }: Props) {
   const { user, isSignedIn } = useUser();
-  const [followedShortIds, setFollowedShortIds] = useState<string[]>([]);
-  const [myShortId, setMyShortId] = useState<string | null>(null);
-  const supabase = createSupabaseClient();
   const pathname = usePathname();
+  const [myShortId, setMyShortId] = useState<string | null>(null);
+  const [followedShortIds, setFollowedShortIds] = useState<string[]>([]);
+  const supabase = createSupabaseClient();
 
   useEffect(() => {
     if (!isSignedIn || !user?.id) return;
 
-    const loadData = async () => {
-      // Get your own short ID
+    const fetchData = async () => {
+      // Get own short ID
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('short_id')
         .eq('id', user.id)
         .maybeSingle();
 
-      if (profileError) console.error('Error loading profile:', profileError);
+      if (profileError) console.error('Profile error:', profileError);
       else setMyShortId(profile?.short_id || null);
 
       // Get followed profiles
@@ -38,29 +38,23 @@ export default function FollowedProfilesList({ onClose }: Props) {
         .select('followed_short_id')
         .eq('user_id', user.id);
 
-      if (followsError) console.error('Error loading follows:', followsError);
+      if (followsError) console.error('Follows error:', followsError);
       else setFollowedShortIds(follows.map(f => f.followed_short_id));
     };
 
-    loadData();
-  }, [isSignedIn, user?.id, supabase]);
+    fetchData();
 
-  // Handle optimistic update when a new follow happens
-  useEffect(() => {
+    // Optimistic update support
     const handleNewFollow = (e: CustomEvent<string>) => {
       const newId = e.detail;
-      setFollowedShortIds((prev) => {
-        if (prev.includes(newId)) return prev;
-        return [...prev, newId];
-      });
+      setFollowedShortIds((prev) => (
+        prev.includes(newId) ? prev : [...prev, newId]
+      ));
     };
 
     window.addEventListener('follow:new', handleNewFollow as EventListener);
-
-    return () => {
-      window.removeEventListener('follow:new', handleNewFollow as EventListener);
-    };
-  }, []);
+    return () => window.removeEventListener('follow:new', handleNewFollow as EventListener);
+  }, [isSignedIn, user?.id, supabase]);
 
   return (
     <div className="flex flex-col-reverse items-center space-y-reverse space-y-2 mb-4">
@@ -84,7 +78,6 @@ export default function FollowedProfilesList({ onClose }: Props) {
           </Link>
         );
       })}
-
     </div>
   );
 }

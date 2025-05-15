@@ -1,6 +1,5 @@
 import InputBar from '@/components/InputBar';
 import SidebarToggle from '@/components/SidebarToggle'; // ✅ correct now
-import FollowButton from '@/components/FollowButton';
 import { useFollowStatus } from '@/components/useFollowStatus'; // ✅ confirm this path
 import clsx from 'clsx';
 
@@ -22,7 +21,6 @@ export default function UniversalBar({ sidebarOpen }: { sidebarOpen: boolean }) 
       <div className="flex items-center gap-2">
         <SidebarToggle />
         <InputBar />
-        {showFollow && <FollowButton onFollow={handleFollow} />}
       </div>
     </div>
   );
