@@ -19,8 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     .maybeSingle();
 
   if (error) {
-    console.error('Supabase error:', error);
-    return res.status(500).json({ error: 'Database error' });
+  console.error('Follow insert error:', error); // 👈 this will surface in Vercel logs
+  return res.status(500).json({ error: 'Insert failed' });
   }
 
   return res.status(200).json({ isFollowing: !!data });

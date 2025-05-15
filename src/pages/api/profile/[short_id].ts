@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     .from('profiles')
     .select('id')
     .eq('short_id', short_id.toUpperCase())
-    .single();
+    .maybeSingle();
 
   if (error || !data) {
     return res.status(404).json({ error: 'Profile not found' });
