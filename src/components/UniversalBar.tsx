@@ -1,10 +1,8 @@
 import InputBar from '@/components/InputBar';
 import SidebarToggle from '@/components/SidebarToggle'; // ✅ correct now
-import { useFollowStatus } from '@/components/useFollowStatus'; // ✅ confirm this path
 import clsx from 'clsx';
 
 export default function UniversalBar({ sidebarOpen }: { sidebarOpen: boolean }) {
-  const { showFollow, handleFollow } = useFollowStatus();
 
   return (
       <div
