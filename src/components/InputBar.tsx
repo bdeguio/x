@@ -19,25 +19,12 @@ export default function InputBar() {
     }
   }, [pathname, currentShortId]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const trimmed = inputId.trim().toUpperCase();
     if (!trimmed) return;
 
-    const res = await fetch(`/api/profile/${trimmed}`);
-    if (res.ok) {
-      toast.success(`${trimmed}`);
-      router.push(`/u/${trimmed}`);
-    } else {
-      toast.error('Profile not found');
-    }
+    router.push(`/u/${trimmed}`);
   };
-
-  // Auto-submit when input reaches 6 characters
-  useEffect(() => {
-    if (inputId.length === 6) {
-      handleSubmit();
-    }
-  }, [inputId]);
 
   return (
     <div className="flex-1 flex items-center gap-2 bg-gray-100 dark:bg-zinc-800 rounded-full px-4 py-2">
