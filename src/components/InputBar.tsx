@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname, useParams } from 'next/navigation';
-import { toast } from 'react-hot-toast';
 
 export default function InputBar() {
   const router = useRouter();
