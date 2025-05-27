@@ -3,14 +3,13 @@ import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient } from "@/lib/plaid";
 import { createSupabaseClient } from '@/lib/supabase';
 
-// --- POST: Fetch new holdings from Plaid and store into Supabase ---
 export async function POST(req: NextRequest) {
   try {
     const supabase = createSupabaseClient();
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 
-    // Get access token
+    // 🔐 Get access token
     const { data: tokenRow, error: tokenError } = await supabase
       .from("plaid_tokens")
       .select("access_token")
@@ -18,76 +17,97 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (tokenError || !tokenRow) {
-      console.error("No access token found for user");
+      console.error("❌ No access token found for user");
       return NextResponse.json({ error: "No Plaid connection found" }, { status: 400 });
     }
 
     const access_token = tokenRow.access_token;
+    console.log("✅ Access token retrieved");
 
-    // Fetch holdings from Plaid
+    // 📥 Sync accounts into connected_accounts
+    const accountsResponse = await plaidClient.accountsGet({ access_token });
+    const accounts = accountsResponse.data.accounts;
+
+    for (const account of accounts) {
+      const insertPayload = {
+        user_id: userId,
+        account_id: account.account_id,
+        account_name: account.name,
+        institution_name: account.official_name || account.name || "UNKNOWN",
+        mask: account.mask || null,
+        access_token,
+      };
+
+      const { error } = await supabase
+        .from("connected_accounts")
+        .upsert(insertPayload, { onConflict: 'account_id' });
+
+      if (error) console.error("❌ connected_accounts insert error:", error);
+    }
+
+    // 📊 Fetch investment holdings from Plaid
     const holdingsResponse = await plaidClient.investmentsHoldingsGet({ access_token });
     const holdings = holdingsResponse.data.holdings;
     const securities = holdingsResponse.data.securities;
 
-    // Build the securityIdToTicker map:
-    const securityIdToInfo: { [securityId: string]: { ticker: string; name: string } } = {};
-    securities.forEach((security) => {
-      if (security.security_id && security.ticker_symbol) {
-        securityIdToInfo[security.security_id] = {
-          ticker: security.ticker_symbol,
-          name: security.name || "Unknown Company",
+    console.log("✅ Holdings count:", holdings.length);
+    console.log("✅ Securities count:", securities.length);
+
+    // 🔁 Map securities info
+    const securityIdToInfo: { [id: string]: { ticker: string; name: string; type: string; cusip: string } } = {};
+    securities.forEach((s) => {
+      if (s.security_id) {
+        securityIdToInfo[s.security_id] = {
+          ticker: s.ticker_symbol || "UNKNOWN",
+          name: s.name || "UNKNOWN",
+          type: s.type || "UNKNOWN",
+          cusip: s.cusip || "UNKNOWN",
         };
       }
     });
 
-    // Clear old holdings
-    await supabase
-      .from("holdings")
-      .delete()
-      .eq("user_id", userId);
+    // 🧼 Clear user's previous holdings
+    await supabase.from("holdings").delete().eq("user_id", userId);
 
-    // Insert new holdings
-    const inserts = holdings.map((holding) => ({
-      user_id: userId,
-      security_id: holding.security_id,
-      ticker_symbol: securityIdToInfo[holding.security_id]?.ticker || "UNKNOWN",
-      company_name: securityIdToInfo[holding.security_id]?.name || "Unknown Company",
-    }));    
+    // 📤 Build and insert each row
+    let insertedCount = 0;
+    for (const h of holdings) {
+      const sec = securityIdToInfo[h.security_id] || {
+        ticker: "UNKNOWN",
+        name: "UNKNOWN",
+        type: "UNKNOWN",
+        cusip: "UNKNOWN",
+      };
 
-    const { error: insertError } = await supabase.from("holdings").insert(inserts);
+      const row = {
+        user_id: userId,
+        account_id: h.account_id ?? "UNKNOWN",
+        security_id: h.security_id ?? "UNKNOWN",
+        name: sec.name,
+        ticker: sec.ticker,
+        type: sec.type,
+        cusip: sec.cusip,
+        quantity: h.quantity ?? null,
+        value: h.institution_value ?? null,
+        iso_currency_code: h.iso_currency_code ?? "UNKNOWN",
+      };
 
-    if (insertError) {
-      console.error("Failed to insert holdings");
-      return NextResponse.json({ error: "Failed to store holdings" }, { status: 500 });
+      console.log("📦 Attempting to insert:", row);
+
+        const { error: rowError } = await supabase.from("holdings").insert(row);
+
+        if (rowError) {
+          console.error("❌ Failed to insert row:", row);
+          console.error("⛔ Supabase error:", rowError.message);
+        } else {
+          insertedCount++;
+          console.log("✅ Inserted holding:", row.ticker, "for", row.value);
+        }
     }
 
-    return NextResponse.json({ message: "Holdings updated successfully" });
-  } catch (err: unknown) {
-    console.error("Error fetching holdings", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
-
-// --- GET: Fetch stored holdings from Supabase to display ---
-export async function GET(req: NextRequest) {
-  try {
-    const supabase = createSupabaseClient();
-    const { userId } = getAuth(req);
-    if (!userId) throw new Error("Unauthorized");
-
-    const { data, error } = await supabase
-      .from("holdings")
-      .select("*")
-      .eq("user_id", userId);
-
-    if (error) {
-      console.error("Failed to fetch holdings");
-      return NextResponse.json({ error: "Failed to fetch holdings" }, { status: 500 });
-    }
-
-    return NextResponse.json(data);
-  } catch (err: unknown) {
-    console.error("Error fetching holdings", err);
+    return NextResponse.json({ message: `Inserted ${insertedCount} holdings` });
+  } catch (err) {
+    console.error("❌ Server error in holdings POST:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

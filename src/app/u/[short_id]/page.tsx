@@ -5,8 +5,9 @@ import { useParams } from 'next/navigation';
 import FollowButton from '@/components/FollowButton';
 
 type Holding = {
-  ticker_symbol: string;
-  company_name?: string;
+  ticker: string;
+  name: string;
+  value?: number;
 };
 
 // ✅ 1. Fetch function OUTSIDE the component
@@ -59,8 +60,8 @@ export default function UserHoldingsPage() {
                 className="p-4 rounded border shadow flex justify-between items-center"
               >
                 <div>
-                  <div className="text-lg font-semibold">{h.ticker_symbol}</div>
-                  <div className="text-gray-500 text-sm">{h.company_name || "Unknown Company"}</div>
+                  <div className="text-lg font-semibold">{h.ticker}</div>
+                  <div className="text-gray-500 text-sm">{h.name || "Unknown Company"}</div>
                 </div>
               </div>
             ))

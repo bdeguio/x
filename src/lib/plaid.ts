@@ -13,3 +13,6 @@ const config = new Configuration({
 
 // 2️⃣ Export the client to use in API routes
 export const plaidClient = new PlaidApi(config);
+
+export { CountryCode } from "plaid";
+
