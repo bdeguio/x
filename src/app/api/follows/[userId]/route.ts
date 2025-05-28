@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/lib/supabase';
 
+type RouteContext = {
+  params: Record<string, string>;
+};
+
 export async function GET(
   req: NextRequest,
-  context: { params: { userId: string } }
+  context: RouteContext
 ) {
   const userId = context.params.userId;
   const supabase = createSupabaseClient(true);
