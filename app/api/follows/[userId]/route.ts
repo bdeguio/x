@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/lib/supabase';
 
+export const runtime = 'nodejs';
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: { userId: string } }
 ) {
-  const userId = params.userId;
+  const userId = context.params.userId;
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
