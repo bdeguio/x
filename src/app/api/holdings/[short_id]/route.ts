@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseClient } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
+
 
 export async function GET(
   req: NextRequest,
@@ -7,7 +8,7 @@ export async function GET(
 ) {
   const short_id = context.params.short_id; // ✅ Not destructured in function args
 
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseServerClient();
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")

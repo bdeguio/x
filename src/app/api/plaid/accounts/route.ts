@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
-import { createSupabaseClient } from '@/lib/supabase';
+import { createSupabaseServerClient } from "@/lib/supabase-server";
+
 
 export async function GET(req: NextRequest) {
   try {
-    const supabase = createSupabaseClient();
+    const supabase = createSupabaseServerClient();
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 

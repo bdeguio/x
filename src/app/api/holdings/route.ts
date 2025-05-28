@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
-import { createSupabaseClient } from '@/lib/supabase';
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 
-const supabase = createSupabaseClient();
-
+const supabase = createSupabaseServerClient();
 
 export async function GET(req: NextRequest) {
   try {

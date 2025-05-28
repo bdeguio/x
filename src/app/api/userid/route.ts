@@ -1,6 +1,6 @@
 import { getAuth } from '@clerk/nextjs/server';
 import { NextResponse, NextRequest } from 'next/server';
-import { createSupabaseClient } from '@/lib/supabase';
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { nanoid } from 'nanoid';
 
 export async function GET(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseServerClient();
 
   const { data: profile, error } = await supabase
     .from('profiles')
