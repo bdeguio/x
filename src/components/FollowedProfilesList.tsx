@@ -46,7 +46,7 @@ export default function FollowedProfilesList({ onClose }: { onClose: () => void 
 
     window.addEventListener('follow:new', handleNewFollow as EventListener);
     return () => window.removeEventListener('follow:new', handleNewFollow as EventListener);
-  }, [isSignedIn, user?.id]);
+  }, [isSignedIn, user?.id, supabase]);
 
   const handleRemove = async (shortId: string) => {
     if (!user?.id) return;

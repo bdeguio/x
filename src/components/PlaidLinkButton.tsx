@@ -8,23 +8,23 @@ export default function PlaidLinkButton() {
   const [linkToken, setLinkToken] = useState<string | null>(null);
 
   useEffect(() => {
-    async function createLinkToken() {
+    const createLinkToken = async () => {
       try {
         const res = await fetch('/api/plaid/create-link-token', { method: 'POST' });
-        const data = await res.json();
+        const data: { link_token: string } = await res.json();
         setLinkToken(data.link_token);
       } catch (err) {
-        console.error("❌ Failed to create link token", err);
-        toast.error("Could not initialize Plaid link");
+        console.error('❌ Failed to create link token', err);
+        toast.error('Could not initialize Plaid link');
       }
-    }
+    };
 
     createLinkToken();
   }, []);
 
   const { open, ready } = usePlaidLink({
     token: linkToken || '',
-    onSuccess: async (public_token) => {
+    onSuccess: async (public_token: string) => {
       try {
         console.log('✅ Plaid link success');
 
@@ -34,16 +34,23 @@ export default function PlaidLinkButton() {
           body: JSON.stringify({ public_token }),
         });
 
-        const exchangeData = await exchangeRes.json();
-        if (!exchangeRes.ok) throw new Error(exchangeData.error || 'Token exchange failed');
+        const exchangeData: { error?: string } = await exchangeRes.json();
+        if (!exchangeRes.ok) {
+          throw new Error(exchangeData?.error || 'Token exchange failed');
+        }
 
-        toast.success("Holdings loaded successfully!");
-        window.dispatchEvent(new CustomEvent('plaid:sync')); // 🔔 Trigger refresh
-      } catch (err: any) {
-        console.error("❌ Plaid sync error", err);
-        toast.error(err.message || "Failed to sync account");
+        toast.success('Holdings loaded successfully!');
+        window.dispatchEvent(new CustomEvent('plaid:sync'));
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error('❌ Plaid sync error:', err.message);
+          toast.error(err.message || 'Failed to sync account');
+        } else {
+          console.error('❌ Plaid sync error:', err);
+          toast.error('Failed to sync account');
+        }
       }
-    }
+    },
   });
 
   if (!ready) {
