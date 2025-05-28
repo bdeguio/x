@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseClient } from '@/lib/supabase';
 
-const supabase = createSupabaseServerClient();
 
 export async function GET(req: NextRequest) {
+  const supabase = createSupabaseClient(true);
+
   try {
     const { userId } = getAuth(req);
     if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -27,20 +28,26 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId } = getAuth(req);
+  const supabase = createSupabaseClient(true);
 
+  const { userId } = getAuth(req);
   if (!userId) {
-    return new NextResponse(null, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const newHolding = await req.json();
 
-  await supabase.from("holdings").insert([
+  const { error } = await supabase.from("holdings").insert([
     {
       user_id: userId,
       ticker: newHolding.ticker,
     },
   ]);
+
+  if (error) {
+    console.error("Supabase Insert Error:", error);
+    return NextResponse.json({ error: "Insert failed" }, { status: 500 });
+  }
 
   return new NextResponse(null, { status: 200 });
 }

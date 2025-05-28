@@ -5,7 +5,7 @@ import { createSupabaseClient } from '@/lib/supabase';
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createSupabaseClient();
+    const supabase = createSupabaseClient(true);
     const { userId } = getAuth(req);
     if (!userId) throw new Error("Unauthorized");
 

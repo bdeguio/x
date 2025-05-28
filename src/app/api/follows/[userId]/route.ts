@@ -1,12 +1,12 @@
 // src/app/api/follows/[userId]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { userId: string } }
 ) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
 

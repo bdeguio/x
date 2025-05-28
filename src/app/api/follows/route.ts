@@ -1,9 +1,10 @@
 // src/app/api/follows/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseClient } from '@/lib/supabase';
+
 
 export async function POST(req: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseClient(true);
   const body = await req.json();
   const { user_id, followed_short_id } = body;
 

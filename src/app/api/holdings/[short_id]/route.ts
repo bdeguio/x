@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseClient } from '@/lib/supabase';
 
 
 export async function GET(
   req: NextRequest,
   context: { params: { short_id: string } }
 ) {
-  const short_id = context.params.short_id; // ✅ Not destructured in function args
+  const { short_id } = await Promise.resolve(context.params);
 
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseClient(true);
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
