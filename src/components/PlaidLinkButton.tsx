@@ -28,7 +28,6 @@ export default function PlaidLinkButton() {
       try {
         console.log('✅ Plaid link success');
 
-        // Step 1: Exchange public_token for access_token
         const exchangeRes = await fetch('/api/plaid/exchange-public-token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -36,16 +35,10 @@ export default function PlaidLinkButton() {
         });
 
         const exchangeData = await exchangeRes.json();
-        console.log("✅ Exchange response:", exchangeData);
         if (!exchangeRes.ok) throw new Error(exchangeData.error || 'Token exchange failed');
 
-        // Step 2: Trigger holdings sync
-        const holdingsRes = await fetch('/api/plaid/holdings', { method: 'POST' });
-        const holdingsData = await holdingsRes.json();
-        console.log("✅ Holdings sync response:", holdingsData);
-        if (!holdingsRes.ok) throw new Error(holdingsData.error || 'Holdings fetch failed');
-
         toast.success("Holdings loaded successfully!");
+        window.dispatchEvent(new CustomEvent('plaid:sync')); // 🔔 Trigger refresh
       } catch (err: any) {
         console.error("❌ Plaid sync error", err);
         toast.error(err.message || "Failed to sync account");

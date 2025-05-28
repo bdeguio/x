@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     console.log("✅ Access Token:", access_token);
     console.log("✅ Item ID:", item_id);
 
-    // 🔍 Step 1: Get institution_id from Plaid
+    // 🔍 Get institution name
     const itemResponse = await plaidClient.itemGet({ access_token });
     const institutionId = itemResponse.data.item.institution_id;
 
@@ -35,27 +35,19 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 1️⃣ Save access token to plaid_tokens table
+    // 🪪 Insert into plaid_tokens
     const { error: tokenError } = await supabase.from("plaid_tokens").insert([
-      {
-        user_id: userId,
-        access_token,
-        item_id,
-        institution_name,
-      },
+      { user_id: userId, access_token, item_id, institution_name },
     ]);
-
     if (tokenError) {
-      console.error("❌ Supabase Token Insert Error:", tokenError);
+      console.error("❌ Token Insert Error:", tokenError);
       return NextResponse.json({ error: "Failed to save token" }, { status: 500 });
     }
 
-    // 2️⃣ Fetch accounts from Plaid
+    // 🏦 Insert connected accounts
     const accountsResponse = await plaidClient.accountsGet({ access_token });
     const accounts = accountsResponse.data.accounts;
-
-    // 3️⃣ Insert into connected_accounts
-    const inserts = accounts.map((acct) => ({
+    const accountInserts = accounts.map((acct) => ({
       user_id: userId,
       account_id: acct.account_id,
       account_name: acct.name,
@@ -64,10 +56,44 @@ export async function POST(req: NextRequest) {
       access_token,
     }));
 
-    const { error: insertError } = await supabase.from("connected_accounts").insert(inserts);
+    const { error: insertError } = await supabase.from("connected_accounts").insert(accountInserts);
     if (insertError) {
       console.error("❌ Connected Accounts Insert Error:", insertError);
       return NextResponse.json({ error: "Failed to save connected accounts" }, { status: 500 });
+    }
+
+    // 📈 Fetch holdings and insert into 'holdings'
+    const holdingsResponse = await plaidClient.investmentsHoldingsGet({ access_token });
+    const holdings = holdingsResponse.data.holdings;
+    const securities = holdingsResponse.data.securities;
+
+    const securityMap = Object.fromEntries(
+      securities.map((sec) => [sec.security_id, sec])
+    );
+
+    const holdingInserts = holdings.map((h) => {
+      const sec = securityMap[h.security_id] || {};
+      return {
+        user_id: userId,
+        security_id: h.security_id,
+        account_id: h.account_id,
+        name: sec.name || null,
+        ticker: sec.ticker_symbol || null,
+        cusip: sec.cusip || null,
+        type: sec.type || null,
+        quantity: h.quantity,
+        value: h.institution_value,
+        iso_currency_code: h.iso_currency_code || null,
+      };
+    });
+
+    const { error: holdingInsertError } = await supabase
+      .from("holdings")
+      .insert(holdingInserts);
+
+    if (holdingInsertError) {
+      console.error("❌ Holdings Insert Error:", holdingInsertError);
+      return NextResponse.json({ error: "Failed to save holdings" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
