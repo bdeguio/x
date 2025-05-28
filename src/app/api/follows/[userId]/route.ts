@@ -1,23 +1,23 @@
-// src/app/api/follows/[userId]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: { userId: string } }
 ) {
+  const { userId } = await Promise.resolve(context.params); // ✅ TS-safe
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
 
-  if (!params.userId || !short_id) {
+  if (!userId || !short_id) {
     return NextResponse.json({ error: 'Missing data' }, { status: 400 });
   }
 
   const { data, error } = await supabase
     .from('followed_profiles')
     .select('followed_short_id')
-    .eq('user_id', params.userId)
+    .eq('user_id', userId)
     .eq('followed_short_id', short_id.toUpperCase())
     .maybeSingle();
 
