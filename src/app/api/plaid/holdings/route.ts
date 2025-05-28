@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     console.log("✅ Holdings count:", holdings.length);
     console.log("✅ Securities count:", securities.length);
 
-    const securityIdToInfo: Record<string, any> = {};
+    const securityIdToInfo: Record<string, { ticker: string; name: string; type: string; cusip: string }> = {};
     securities.forEach((s) => {
       if (s.security_id) {
         securityIdToInfo[s.security_id] = {
