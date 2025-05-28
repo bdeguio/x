@@ -5,7 +5,7 @@ export async function GET(
   req: NextRequest,
   context: { params: { userId: string } }
 ) {
-  const { userId } = await Promise.resolve(context.params); // ✅ TS-safe
+  const userId = context.params.userId;
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
