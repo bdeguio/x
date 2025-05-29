@@ -26,7 +26,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <Toaster position="top-center" />
-      <Sidebar isOpen={sidebarOpen} onRefresh={async () => {}} onClose={handleCloseSidebar} />
+      <Sidebar isOpen={sidebarOpen} onClose={handleCloseSidebar} />
       {sidebarOpen && (
         <div
           onClick={handleCloseSidebar}
