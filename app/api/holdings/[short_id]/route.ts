@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseClient } from '@/lib/supabase';
 
-
 export async function GET(
   req: NextRequest,
-  context: { params: { short_id: string } }
+  context: { params: Record<string, string> } // ✅ this is the fix
 ) {
-  const { short_id } = await Promise.resolve(context.params);
+  const { short_id } = context.params;
 
   const supabase = createSupabaseClient(true);
 
