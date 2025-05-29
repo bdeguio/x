@@ -3,9 +3,9 @@ import { createSupabaseClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
-  context: { params: { [key: string]: string } } // ✅ Vercel-safe
+  context: { params: any } // ✅ Vercel-safe
 ) {
-  const short_id = context.params.short_id;
+  const { short_id } = context.params as { short_id: string };
 
   const supabase = createSupabaseClient(true);
 
