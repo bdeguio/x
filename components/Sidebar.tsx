@@ -9,11 +9,10 @@ import RefreshHoldingsButton from './RefreshHoldingsButton';
 
 type Props = {
   isOpen: boolean;
-  onRefresh: () => Promise<void>;
   onClose: () => void;
 };
 
-export default function Sidebar({ isOpen, onRefresh, onClose }: Props) {
+export default function Sidebar({ isOpen, onClose }: Props) {
   const [userId, setUserId] = useState<string | null>(null);
   const { isSignedIn } = useUser();
 
