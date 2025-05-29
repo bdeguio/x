@@ -61,7 +61,7 @@ export default function Sidebar({ isOpen, onRefresh, onClose }: Props) {
         {/* Action buttons */}
         <div>
           <div className="mt-4">
-            <RefreshHoldingsButton onRefresh={onRefresh} />
+            <RefreshHoldingsButton />
           </div>
         </div>
 
