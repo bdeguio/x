@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/lib/supabase';
 
-
 export async function GET(
   req: NextRequest,
-  context: { params: { userId: string } }
+  context: { params: Record<string, string> } // ✅ broad, safe type
 ) {
-  const { userId } = await Promise.resolve(context.params); // ✅ this fixes it
+  const { userId } = context.params; // ✅ no need for Promise.resolve
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
