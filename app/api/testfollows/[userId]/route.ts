@@ -3,9 +3,10 @@ import { createSupabaseClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
-  context: { params: Record<string, string> } // ✅ broad, safe type
+  context: unknown
 ) {
-  const { userId } = context.params; // ✅ no need for Promise.resolve
+  const { userId } = (context as { params: { userId: string } }).params;
+
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
