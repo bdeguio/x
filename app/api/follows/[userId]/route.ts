@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/lib/supabase';
 
-export const runtime = 'nodejs';
 
 export async function GET(
   req: NextRequest,
   context: { params: { userId: string } }
 ) {
-  const userId = context.params.userId;
+  const { userId } = await Promise.resolve(context.params); // ✅ this fixes it
   const supabase = createSupabaseClient(true);
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
