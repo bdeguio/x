@@ -17,7 +17,7 @@ export default function FollowButton() {
       if (!user?.id || !viewedShortId) return;
 
       try {
-        const res = await fetch(`/api/follows/${user.id}?short_id=${viewedShortId}`);
+        const res = await fetch(`/api/testfollows/${user.id}?short_id=${viewedShortId}`);
         if (!res.ok) throw new Error('Follow status check failed');
         const data = await res.json();
         setIsFollowing(data.isFollowing);
@@ -31,7 +31,7 @@ export default function FollowButton() {
   }, [user?.id, viewedShortId]);
 
     const handleFollow = async () => {
-    const res = await fetch('/api/follows', {
+    const res = await fetch('/api/testfollows', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
