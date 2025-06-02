@@ -21,7 +21,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const handleCloseSidebar = () => setSidebarOpen(false);
   const hideUniversalBar =
   typeof pathname === 'string' &&
-  ['/', '/sign-in', '/sign-up'].includes(pathname);
+  ['/', '/sign-in', '/sign-up', '/terms', '/privacy', '/careers', '/pricing'].includes(pathname);
 
   return (
     <>
