@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 export default function CareersPage() {
   return (
@@ -36,7 +35,7 @@ export default function CareersPage() {
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Why Join Arena</h2>
         <ul className="list-disc pl-6 space-y-1">
-          <li>Founding team access and equity potential</li>
+          <li>Founding team access</li>
           <li>Fully remote and async culture</li>
           <li>Freedom to move fast and ship boldly</li>
           <li>Build in public and with a loyal user base</li>
