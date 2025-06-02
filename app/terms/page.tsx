@@ -2,96 +2,70 @@ import Link from "next/link";
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen p-8 text-white bg-black flex flex-col items-center">
-      <div className="max-w-3xl w-full">
-        <h1 className="text-3xl font-bold mb-6">Terms and Conditions</h1>
-        <p className="mb-4">Effective Date: May 1, 2025</p>
+    <main className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
+      <p className="mb-6 text-sm text-gray-600 dark:text-gray-400">Effective: May 1, 2025</p>
 
-        <p className="mb-4">
-          These Terms and Conditions ("Terms") govern your access to and use of Arena, a service operated by ARENASTREET.COM LLC, a New Mexico limited liability company ("we", "us", or "our").
+      <section className="mb-6">
+        <p>
+          By using Arena (operated by ARENASTREET.COM LLC), you agree to these Terms of Service. If you do not agree, please do not use our platform.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">1. Acceptance of Terms</h2>
-        <p className="mb-4">
-          By accessing or using Arena, you agree to these Terms and our Privacy Policy. If you do not agree, you must not use the service.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">1. Use of the Service</h2>
+        <p>
+          Arena provides a way to track, link, and compare financial portfolios. You agree not to misuse the platform or access it using automated systems unless explicitly permitted.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">2. Description of Service</h2>
-        <p className="mb-4">
-          Arena is a dashboard platform for tracking, comparing, and optionally sharing investment portfolios. Arena does not offer financial advice, execute trades, or provide investment recommendations.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">2. Account Registration</h2>
+        <p>
+          You must provide accurate contact information, including your email and phone number, through our authentication partner Clerk. You are responsible for maintaining the confidentiality of your account.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">3. User Eligibility</h2>
-        <p className="mb-4">
-          You must be at least 18 years old and legally capable of entering into binding contracts to use Arena.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">3. Payments</h2>
+        <p>
+          Subscriptions are handled through our payment provider. Plans and prices are listed on our <Link href="/pricing" className="text-purple-600 underline">pricing</Link> page.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">4. Account and Usage</h2>
-        <p className="mb-4">
-          You agree to provide accurate information and to use Arena only for lawful purposes. You are responsible for any activity conducted under your account.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">4. Refund Policy</h2>
+        <p>
+          We offer a 7-day refund window for new Pro (Legend) subscriptions. To request a refund, email us at <a href="mailto:admin@arenastreet.com" className="text-purple-600 underline">admin@arenastreet.com</a>.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">5. Prohibited Conduct</h2>
-        <ul className="list-disc list-inside mb-4">
-          <li>Providing or implying financial advice through the platform</li>
-          <li>Misrepresenting or impersonating another user’s profile or data</li>
-          <li>Using bots or scraping tools without permission</li>
-        </ul>
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">5. Disclaimers</h2>
+        <p>
+          Arena is not a financial advisor. Content, tools, and AI-generated insights are for informational purposes only and do not constitute financial advice.
+        </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">6. Data and Privacy</h2>
-        <p className="mb-4">
-          Your use of Arena is also governed by our <Link href="/privacy-policy" className="underline text-purple-400">Privacy Policy</Link>. We take data privacy seriously and limit third-party access to essential service functions only.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">6. Data & Privacy</h2>
+        <p>
+          We do not sell your personal data. Your financial data is securely stored via Supabase and shared only with your consent. See our <Link href="/privacy" className="text-purple-600 underline">Privacy Policy</Link> for details.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">7. Intellectual Property</h2>
-        <p className="mb-4">
-          All content, branding, software, and systems are the property of ARENASTREET.COM LLC or its licensors. You may not copy, distribute, or reverse-engineer any part of the platform.
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">7. Changes to Terms</h2>
+        <p>
+          These terms may be updated periodically. Continued use of Arena after changes constitutes acceptance of the new terms.
         </p>
+      </section>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">8. Termination</h2>
-        <p className="mb-4">
-          We may suspend or terminate your access at any time if you violate these Terms. You may cancel your account at any time by contacting us.
+      <section>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          For questions, reach out to <a href="mailto:admin@arenastreet.com" className="text-purple-600 underline">admin@arenastreet.com</a>.
         </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">9. Disclaimers</h2>
-        <p className="mb-4">
-          Arena is provided “as is” without warranties of any kind. We do not guarantee accuracy, availability, or suitability for any particular purpose.
-        </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">10. Limitation of Liability</h2>
-        <p className="mb-4">
-          To the fullest extent permitted by law, we are not liable for any loss or damages related to your use of the platform, including financial decisions made based on the content.
-        </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">11. Governing Law</h2>
-        <p className="mb-4">
-          These Terms are governed by the laws of the State of New Mexico, United States.
-        </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">12. Changes to Terms</h2>
-        <p className="mb-4">
-          We may update these Terms at any time. Continued use of the platform constitutes your acceptance of any revised terms.
-        </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">13. Contact</h2>
-        <p className="mb-8">
-          Questions? Reach us at <a href="mailto:admin@arenastreet.com" className="underline">admin@arenastreet.com</a>.
-        </p>
-
-        <h2 className="text-xl font-semibold mt-8 mb-2">14. Refund Policy</h2>
-        <p className="mb-4">
-            Arena offers a 7-day refund window for new Pro (Legend) subscriptions. If you're unsatisfied with the service, contact us at{" "}
-            <a href="mailto:admin@arenastreet.com" className="underline">admin@arenastreet.com</a> within 7 days of your initial payment.
-        </p>
-        <p className="mb-4">
-            After 7 days, all payments are non-refundable. We reserve the right to deny refund requests if we detect abuse or misuse of the platform.
-        </p>
-        <p className="mb-4">
-            Refunds do not apply to renewals, upgrades, or purchases made through third-party app stores or platforms.
-        </p>
-
-        <Link href="/" className="text-purple-400 hover:underline">&larr; Back to Home</Link>
-      </div>
+      </section>
     </main>
   );
 }
