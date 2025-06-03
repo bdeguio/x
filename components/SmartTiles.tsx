@@ -12,7 +12,13 @@ export default function SmartTiles({ shortId, isOwner }: SmartTilesProps) {
         {isOwner ? 'Your AI Portfolio Summary' : `Smart Insights for ${shortId}`}
       </h3>
       <p className="text-sm text-gray-800 dark:text-gray-100 whitespace-pre-wrap">
-        💡 This is a sample Smart Tile. Connect your holdings to see personalized AI insights.
+        👋 <strong>Welcome, Paddle.</strong>{'\n'}
+          📈 Your demo portfolio is <strong>tech-heavy</strong>, with Apple, Nvidia, and Tesla making up 100% of holdings.{'\n'}
+          ⚠️ This concentration boosts returns — but increases volatility.{'\n'}
+          🤖 In production, this tile shows <strong>real-time AI insights</strong> based on live holdings.
+      </p>
+      <p className="text-xs text-gray-500 mt-2">
+        ⚠️ This is sample content and does not constitute financial advice.
       </p>
     </div>
   );
