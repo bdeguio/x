@@ -32,10 +32,10 @@ export default function PricingPage() {
             <h2 className="text-2xl font-semibold mb-2">
               Legend <span className="text-sm text-zinc-400">(Coming Soon)</span>
             </h2>
-            <p className="text-zinc-400 mb-4">For those who want the edge.</p>
+            <p className="text-zinc-400 mb-4">For those who want deeper insights.</p>
             <ul className="text-zinc-300 text-sm mb-6 space-y-2 text-left w-full max-w-xs mx-auto">
               <li>🔥 Unlimited account links</li>
-              <li>🧠 AI-generated portfolio reflections</li>
+              <li>🧠 AI-generated portfolio reflections (informational only)</li>
               <li>📋 Curated follow lists</li>
               <li>🚀 Early access to new features</li>
             </ul>
@@ -49,10 +49,15 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <footer className="w-full mt-16 pt-6 border-t border-zinc-800 text-sm text-zinc-500 flex justify-center gap-6">
-        <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-        <Link href="/terms" className="hover:text-white transition">Terms</Link>
-        <Link href="/careers" className="hover:text-white transition">Careers</Link>
+      <footer className="w-full mt-16 pt-6 border-t border-zinc-800 text-sm text-zinc-500 flex flex-col items-center gap-4">
+        <div className="flex gap-6">
+          <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
+          <Link href="/terms" className="hover:text-white transition">Terms</Link>
+          <Link href="/careers" className="hover:text-white transition">Careers</Link>
+        </div>
+        <p className="text-xs text-zinc-600 text-center">
+          Arena is not a financial advisor. All features and insights are for informational purposes only.
+        </p>
       </footer>
     </main>
   );

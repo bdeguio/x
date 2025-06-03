@@ -15,14 +15,14 @@ export default function TermsPage() {
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">1. Use of the Service</h2>
         <p>
-          Arena provides a way to track, link, and compare financial portfolios. You agree not to misuse the platform or access it using automated systems unless explicitly permitted.
+          Arena provides a way to track and compare user-linked investment data for informational purposes. You agree not to misuse the platform or access it using automated systems unless explicitly permitted.
         </p>
       </section>
 
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">2. Description of Service</h2>
         <p>
-          Arena is a dashboard platform for tracking, comparing, and optionally sharing investment portfolios. Arena does not offer financial advice, execute trades, or provide investment recommendations.
+          Arena is a dashboard platform that helps users organize and visualize their own portfolio data. It may also enable sharing this data with other users. Arena does not provide financial advice, trade execution, or investment recommendations.
         </p>
       </section>
 
@@ -59,7 +59,7 @@ export default function TermsPage() {
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">7. Data & Privacy</h2>
         <p>
-          We do not sell your personal data. Your financial data is securely stored via Supabase and shared only with your consent. See our <Link href="/privacy" className="text-purple-600 underline">Privacy Policy</Link> for details.
+          We do not sell your personal data. Your account and portfolio data is securely stored via Supabase and is only shared with your explicit consent. See our <Link href="/privacy" className="text-purple-600 underline">Privacy Policy</Link> for details.
         </p>
       </section>
 
@@ -99,3 +99,4 @@ export default function TermsPage() {
     </main>
   );
 }
+
