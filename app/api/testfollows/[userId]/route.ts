@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseClient } from '@/lib/supabase';
+import { supabaseService} from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const { userId } = (context as { params: { userId: string } }).params;
 
-  const supabase = createSupabaseClient(true);
+  const supabase = supabaseService();
   const { searchParams } = new URL(req.url);
   const short_id = searchParams.get('short_id');
 

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
-import { createSupabaseClient } from '@/lib/supabase';
+import { supabaseService} from '@/lib/supabase';
 
 
 export async function GET(req: NextRequest) {
-  const supabase = createSupabaseClient(true);
+  const supabase = supabaseService();
 
   try {
     const { userId } = getAuth(req);
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = createSupabaseClient(true);
+  const supabase = supabaseService();
 
   const { userId } = getAuth(req);
   if (!userId) {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseClient } from '@/lib/supabase';
+import { supabaseService} from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const { short_id } = (context as { params: { short_id: string } }).params;
 
-  const supabase = createSupabaseClient(true);
+  const supabase = supabaseService();
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
