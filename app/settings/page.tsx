@@ -1,5 +1,6 @@
 import ConnectedAccounts from '@/components/ConnectedAccounts';
 import PlaidLinkButton from '@/components/PlaidLinkButton';
+import SignOutButton from '@/components/SignOutButton';
 
 export default function SettingsPage() {
   return (
@@ -16,10 +17,14 @@ export default function SettingsPage() {
         <PlaidLinkButton />
       </div>
 
-      <section>
+      <section className="mb-8">
         <h2 className="text-lg font-medium mb-2">Subscription</h2>
         <p className="text-sm text-muted">Manage your plan or billing info here.</p>
       </section>
+
+      <div className="border-t pt-6 mt-6 text-right">
+        <SignOutButton />
+      </div>
     </div>
   );
 }
