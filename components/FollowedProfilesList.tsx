@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { supabaseClient } from '@/lib/supabase-client';
+import { supabaseBrowser } from '@/lib/supabase';
 
 
 export default function FollowedProfilesList({ onClose }: { onClose: () => void }) {
@@ -13,7 +13,7 @@ export default function FollowedProfilesList({ onClose }: { onClose: () => void 
   const pathname = usePathname()!;
   const [myShortId, setMyShortId] = useState<string | null>(null);
   const [followedShortIds, setFollowedShortIds] = useState<string[]>([]);
-  const supabase = supabaseClient;
+  const supabase = supabaseBrowser;
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
 
   useEffect(() => {
