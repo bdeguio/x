@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PrivacyPage() {
   return (
     <main className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
@@ -79,6 +81,16 @@ export default function PrivacyPage() {
           <a href="mailto:admin@arenastreet.com" className="text-purple-600 underline">admin@arenastreet.com</a>.
         </p>
       </section>
+      <footer className="w-full mt-16 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-600 dark:text-zinc-500 flex flex-col items-center gap-4">
+        <div className="flex gap-6">
+          <Link href="/terms" className="hover:text-black dark:hover:text-white transition">Terms</Link>
+          <Link href="/about" className="hover:text-black dark:hover:text-white transition">About</Link>
+          <Link href="/" className="hover:text-black dark:hover:text-white transition">Home</Link>
+        </div>
+        <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center">
+          Arena is not a financial advisor. All features and insights are for informational purposes only.
+        </p>
+      </footer>
     </main>
   );
 }

@@ -52,6 +52,7 @@ export default function PricingPage() {
           <Link href="/privacy" className="hover:text-black dark:hover:text-white transition">Privacy</Link>
           <Link href="/terms" className="hover:text-black dark:hover:text-white transition">Terms</Link>
           <Link href="/about" className="hover:text-black dark:hover:text-white transition">About</Link>
+          <Link href="/" className="hover:text-black dark:hover:text-white transition">Home</Link>
         </div>
         <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center">
           Arena is not a financial advisor. All features and insights are for informational purposes only.
