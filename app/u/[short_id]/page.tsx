@@ -20,7 +20,8 @@ const fetchHoldings = async (
   try {
     const res = await fetch(`/api/holdings/${short_id}`);
     const data = await res.json();
-    setHoldings(Array.isArray(data) ? data : []);
+    setHoldings(Array.isArray(data.holdings) ? data.holdings : []);
+
   } catch (err) {
     console.error("Failed to fetch holdings:", err);
     setHoldings([]);
