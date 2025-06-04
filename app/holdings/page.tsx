@@ -6,7 +6,7 @@ import SmartTiles from '@/components/SmartTiles';
 type Holding = {
   ticker: string;
   name: string;
-  value?: number;
+  //value?: number;
 };
 
 export default function HoldingsPage() {
@@ -50,7 +50,6 @@ export default function HoldingsPage() {
                 <div className="text-lg font-semibold">{h.ticker}</div>
                 <div className="text-gray-500 text-sm">{h.name}</div>
               </div>
-              <div className="text-sm font-medium">${(h.value ?? 0).toFixed(2)}</div>
             </div>
           ))
         )}
