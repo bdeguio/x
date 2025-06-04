@@ -15,9 +15,8 @@ export default function PricingPage() {
             <h2 className="text-2xl font-semibold mb-2">Free</h2>
             <p className="text-zinc-400 mb-4">Everything you need to get started.</p>
             <ul className="text-zinc-300 text-sm mb-6 space-y-2 text-left w-full max-w-xs mx-auto">
-              <li>✅ Link 1 account</li>
               <li>✅ View other portfolios</li>
-              <li>✅ Compare holdings</li>
+              <li>✅ No sign-up required — explore directly in your browser</li>
             </ul>
             <Link
               href="/sign-in"
@@ -30,14 +29,13 @@ export default function PricingPage() {
           {/* Legend Plan */}
           <div className="border border-zinc-800 rounded-2xl p-6 flex flex-col items-center bg-zinc-900 opacity-60">
             <h2 className="text-2xl font-semibold mb-2">
-              Legend <span className="text-sm text-zinc-400">(Coming Soon)</span>
+              Legend $10/mo<span className="text-sm text-zinc-400">(Coming Soon)</span>
             </h2>
-            <p className="text-zinc-400 mb-4">For those who want deeper insights.</p>
+            <p className="text-zinc-400 mb-4">For those who want more connection.</p>
             <ul className="text-zinc-300 text-sm mb-6 space-y-2 text-left w-full max-w-xs mx-auto">
-              <li>🔥 Unlimited account links</li>
-              <li>🧠 AI-generated portfolio reflections (informational only)</li>
-              <li>📋 Curated follow lists</li>
-              <li>🚀 Early access to new features</li>
+              <li>✅ Connect multiple financial accounts</li>
+              <li>✅ Save and track favorite portfolios</li>
+              <li>✅ AI-generated portfolio reflections (informational only)</li>
             </ul>
             <button
               disabled
@@ -53,7 +51,7 @@ export default function PricingPage() {
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition">Terms</Link>
-          <Link href="/careers" className="hover:text-white transition">Careers</Link>
+          <Link href="/about" className="hover:text-white transition">About</Link>
         </div>
         <p className="text-xs text-zinc-600 text-center">
           Arena is not a financial advisor. All features and insights are for informational purposes only.
