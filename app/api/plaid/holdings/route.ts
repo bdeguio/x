@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { plaidClient } from "@/lib/plaid";
 import { createSupabaseServerClient } from '@/lib/supabase-server';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     const supabase = await createSupabaseServerClient(); // ✅ await it
 

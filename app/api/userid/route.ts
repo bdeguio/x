@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase-server';
 import { nanoid } from 'nanoid';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createSupabaseServerClient();
 
