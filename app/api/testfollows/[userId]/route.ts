@@ -3,7 +3,6 @@ import { createSupabaseServerClient } from '@/lib/supabase-server';
 
 export async function GET(
   req: NextRequest,
-  context: unknown
 ) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -31,4 +30,3 @@ export async function GET(
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
-`
