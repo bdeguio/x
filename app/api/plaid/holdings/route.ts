@@ -51,3 +51,33 @@ export async function POST(req: NextRequest) {
     const holdingInserts = holdings.map((h) => {
       const sec = securityIdToInfo[h.security_id] || {
         ticker: "UNKNOWN",
+        name: "UNKNOWN",
+        type: "UNKNOWN",
+        cusip: "UNKNOWN",
+      };
+
+      return {
+        account_id: h.account_id ?? "UNKNOWN",
+        security_id: h.security_id ?? "UNKNOWN",
+        name: sec.name,
+        ticker: sec.ticker,
+        type: sec.type,
+        cusip: sec.cusip,
+        quantity: h.quantity ?? null,
+        value: h.institution_value ?? null,
+        iso_currency_code: h.iso_currency_code ?? "UNKNOWN",
+      };
+    });
+
+    const { error: insertError } = await supabase.from("holdings").insert(holdingInserts);
+    if (insertError) {
+      console.error("❌ Insert error:", insertError.message);
+      return NextResponse.json({ error: "Insert failed" }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: `Inserted ${holdingInserts.length} holdings` });
+  } catch (err) {
+    console.error("❌ Server error in holdings POST:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
