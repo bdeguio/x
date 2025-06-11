@@ -7,9 +7,11 @@ export async function GET() {
     const supabase = await createSupabaseServerClient();
 
     // 🔍 Try to fetch existing profile
+    const { data: { user } } = await supabase.auth.getUser();
     const { data: profile, error } = await supabase
       .from('profiles')
       .select('short_id')
+      .eq('id', user?.id)
       .single();
 
     // 🔨 If not found, create it
