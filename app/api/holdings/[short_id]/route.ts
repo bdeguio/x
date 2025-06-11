@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseService} from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 export async function GET(
   req: NextRequest,
-  context: unknown // ✅ lint-safe, Vercel-safe
+  context: unknown
 ) {
   const { short_id } = (context as { params: { short_id: string } }).params;
 
-  const supabase = supabaseService();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! // ✅ Use anon key — but only for public data
+  );
 
+  // Get profile by short_id
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("id")
@@ -19,6 +23,7 @@ export async function GET(
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
+  // Get holdings belonging to that user
   const { data: holdings, error } = await supabase
     .from("holdings")
     .select("ticker, name, value")

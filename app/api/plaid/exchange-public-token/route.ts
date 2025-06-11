@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient, CountryCode } from "@/lib/plaid";
-import { supabaseService} from '@/lib/supabase';
+import { createSupabaseServerClient } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = supabaseService();
-    const { userId } = getAuth(req);
-    if (!userId) throw new Error("Unauthorized");
-
+    const supabase = await createSupabaseServerClient(); // ✅ await
     const { public_token } = await req.json();
 
     const tokenResponse = await plaidClient.itemPublicTokenExchange({ public_token });
@@ -37,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     // 🪪 Insert into plaid_tokens
     const { error: tokenError } = await supabase.from("plaid_tokens").insert([
-      { user_id: userId, access_token, item_id, institution_name },
+      { access_token, item_id, institution_name } // ✅ Don't include user_id — RLS will assign it
     ]);
     if (tokenError) {
       console.error("❌ Token Insert Error:", tokenError);
@@ -48,7 +44,6 @@ export async function POST(req: NextRequest) {
     const accountsResponse = await plaidClient.accountsGet({ access_token });
     const accounts = accountsResponse.data.accounts;
     const accountInserts = accounts.map((acct) => ({
-      user_id: userId,
       account_id: acct.account_id,
       account_name: acct.name,
       institution_name,
@@ -74,7 +69,6 @@ export async function POST(req: NextRequest) {
     const holdingInserts = holdings.map((h) => {
       const sec = securityMap[h.security_id] || {};
       return {
-        user_id: userId,
         security_id: h.security_id,
         account_id: h.account_id,
         name: sec.name || null,

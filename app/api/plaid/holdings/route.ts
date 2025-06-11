@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
 import { plaidClient } from "@/lib/plaid";
-import { supabaseService} from '@/lib/supabase';
+import { createSupabaseServerClient } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = supabaseService();
-    const { userId } = getAuth(req);
-    if (!userId) throw new Error("Unauthorized");
+    const supabase = await createSupabaseServerClient(); // ✅ await it
 
+    // ✅ Use RLS to limit access to the user's token
     const { data: tokenRow, error: tokenError } = await supabase
       .from("plaid_tokens")
       .select("access_token")
-      .eq("user_id", userId)
       .single();
 
     if (tokenError || !tokenRow) {
@@ -43,40 +40,14 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    // 🧼 Clear previous holdings
-    await supabase.from("holdings").delete().eq("user_id", userId);
-
-    // 💾 Insert new holdings
-    let insertedCount = 0;
-    for (const h of holdings) {
-      const sec = securityIdToInfo[h.security_id] || {
-        ticker: "UNKNOWN",
-        name: "UNKNOWN",
-        type: "UNKNOWN",
-        cusip: "UNKNOWN",
-      };
-
-      const row = {
-        user_id: userId,
-        account_id: h.account_id ?? "UNKNOWN",
-        security_id: h.security_id ?? "UNKNOWN",
-        name: sec.name,
-        ticker: sec.ticker,
-        type: sec.type,
-        cusip: sec.cusip,
-        quantity: h.quantity ?? null,
-        value: h.institution_value ?? null,
-        iso_currency_code: h.iso_currency_code ?? "UNKNOWN",
-      };
-
-      const { error: rowError } = await supabase.from("holdings").insert(row);
-      if (!rowError) insertedCount++;
-      else console.error("❌ Holding insert error:", rowError.message, row);
+    // 🧼 Clear previous holdings for this user
+    const { error: deleteError } = await supabase.from("holdings").delete();
+    if (deleteError) {
+      console.error("❌ Error clearing previous holdings:", deleteError.message);
+      return NextResponse.json({ error: "Failed to clear holdings" }, { status: 500 });
     }
 
-    return NextResponse.json({ message: `Inserted ${insertedCount} holdings` });
-  } catch (err) {
-    console.error("❌ Server error in holdings POST:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
+    // 💾 Insert new holdings
+    const holdingInserts = holdings.map((h) => {
+      const sec = securityIdToInfo[h.security_id] || {
+        ticker: "UNKNOWN",

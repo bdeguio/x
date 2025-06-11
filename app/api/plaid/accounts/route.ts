@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
-import { supabaseService} from '@/lib/supabase';
-
+import { createSupabaseServerClient } from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
   try {
-    const supabase = supabaseService();
-    const { userId } = getAuth(req);
-    if (!userId) throw new Error("Unauthorized");
+    const supabase = await createSupabaseServerClient(); // ✅ Await it
 
     const { data, error } = await supabase
-      .from('connected_accounts') // ✅ Correct table
-      .select('*')
-      .eq('user_id', userId);
+      .from('connected_accounts')
+      .select('*'); // ✅ RLS will ensure user only sees their own
 
     if (error) {
       console.error("❌ Failed to fetch connected_accounts:", error);
       return NextResponse.json({ error: "Failed to fetch accounts" }, { status: 500 });
     }
 
-    return NextResponse.json({ accounts: data }); // ✅ Matches frontend expectations
+    return NextResponse.json({ accounts: data });
   } catch (err) {
     console.error("❌ Error fetching accounts:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Unauthorized or server error" }, { status: 401 });
   }
 }
