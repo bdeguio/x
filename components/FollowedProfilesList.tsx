@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { supabaseBrowser } from '@/lib/supabase';
+import { supabaseClient as supabaseBrowser } from '@/lib/supabase-client';
 
 
 export default function FollowedProfilesList({ onClose }: { onClose: () => void }) {

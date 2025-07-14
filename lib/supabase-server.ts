@@ -1,24 +1,23 @@
-import { createClient } from '@supabase/supabase-js';
-import { auth } from '@clerk/nextjs/server';
+import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 
 export const createSupabaseServerClient = async () => {
-  const { getToken, userId } = await auth(); // ← ✅ await the Promise
+  const cookieStore = await cookies();
+  const token = cookieStore.get("__session")?.value;
 
-  if (!userId) {
-    throw new Error("User not authenticated.");
+  if (!token) {
+    throw new Error("Not authenticated");
   }
 
-  const supabase = createClient(
+  return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       global: {
         headers: {
-          Authorization: `Bearer ${await getToken()}`, // ← Clerk session token
+          Authorization: `Bearer ${token}`,
         },
-      },
+      }
     }
   );
-
-  return supabase;
 };
