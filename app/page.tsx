@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ArenaStreetHome() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6 py-16 font-sans">
@@ -30,17 +32,24 @@ export default function ArenaStreetHome() {
             <p className="text-gray-500 mt-2 text-sm">
               Our upcoming platform for portfolio tracking and smarter trading decisions. Still in the lab — stay tuned!
             </p>
-            <a
+            <Link
               href="/sign-in"
               className="inline-block mt-4 px-4 py-2 rounded bg-white hover:bg-gray-200 text-black text-sm font-medium transition"
             >
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
 
         <p className="text-xs text-gray-600 mt-12">
-          © {new Date().getFullYear()} ArenaStreet.com LLC · <a href="/privacy" className="underline text-white">Privacy Policy</a> · <a href="/terms" className="underline text-white">Terms of Use</a>
+          © {new Date().getFullYear()} ArenaStreet.com LLC ·{" "}
+          <Link href="/privacy" className="underline text-white">
+            Privacy Policy
+          </Link>{" "}
+          ·{" "}
+          <Link href="/terms" className="underline text-white">
+            Terms of Use
+          </Link>
         </p>
       </div>
     </main>
