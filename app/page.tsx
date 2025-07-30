@@ -28,9 +28,9 @@ export default function ArenaStreetHome() {
           </div>
 
           <div className="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow">
-            <h2 className="text-xl font-semibold text-white">Arena 📊</h2>
+            <h2 className="text-xl font-semibold text-white">Arena</h2>
             <p className="text-gray-500 mt-2 text-sm">
-              Our upcoming platform for portfolio tracking and smarter trading decisions. Still in the lab — stay tuned!
+              Our upcoming platform. Still in the lab — stay tuned!
             </p>
             <Link
               href="/sign-in"
